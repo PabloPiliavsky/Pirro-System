@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   PIRRO-SYSTEM — TOKENS DE DISEÑO DUAL:
+   - Tema Claro (Opción C: Titanio Plateado & Turquesa Profundo)
+   - Tema Oscuro Principal (Opción A: Turquesa Acero & Grafito)
+   Anchored to REQ-FND-001, REQ-FND-014
+   ========================================================================== */
+
+:root {
+  --background: #E5E9EC;
+  --foreground: #121619;
+  --card: #F4F6F8;
+  --card-foreground: #121619;
+  --popover: #F4F6F8;
+  --popover-foreground: #121619;
+  --primary: #008B94;
+  --primary-hover: #00ADB5;
+  --primary-foreground: #FFFFFF;
+  --secondary: #D8DFE5;
+  --secondary-foreground: #121619;
+  --muted: #CFD7DE;
+  --muted-foreground: #4A5562;
+  --accent: #00ADB5;
+  --accent-foreground: #FFFFFF;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #9EA8B3;
+  --input: #9EA8B3;
+  --ring: #008B94;
+  --silver: #6B7785;
+  --radius: 0.625rem;
+}
+
+.dark {
+  --background: #111418;
+  --foreground: #FFFFFF;
+  --card: #1B2026;
+  --card-foreground: #FFFFFF;
+  --popover: #1B2026;
+  --popover-foreground: #FFFFFF;
+  --primary: #00C2CB;
+  --primary-hover: #5CE1E6;
+  --primary-foreground: #0B0F12;
+  --secondary: #252C34;
+  --secondary-foreground: #C4CDD5;
+  --muted: #252C34;
+  --muted-foreground: #C4CDD5;
+  --accent: #5CE1E6;
+  --accent-foreground: #0B0F12;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #323B46;
+  --input: #323B46;
+  --ring: #00C2CB;
+  --silver: #C4CDD5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-silver: var(--silver);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}

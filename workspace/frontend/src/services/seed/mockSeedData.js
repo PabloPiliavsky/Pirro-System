@@ -1,0 +1,173 @@
+// ============================================================================
+// PIRRO-SYSTEM — DATOS SEMILLA ESPEJO EXACTO DE workspace/supabase/seed.sql
+// Anchored to REQ-FND-004, REQ-FND-005, REQ-FND-006, REQ-FND-009
+// ============================================================================
+
+const INITIAL_SEED = {
+  usuarios: [
+    {
+      id: 1,
+      auth_user_id: '11111111-1111-4111-8111-111111111111',
+      nombre_usuario: 'leandro.pirro',
+      email: 'leandro@pirrosystem.com',
+      estado: true,
+      ultimo_acceso: '2026-10-08T10:00:00Z',
+    },
+    {
+      id: 2,
+      auth_user_id: '22222222-2222-4222-8222-222222222222',
+      nombre_usuario: 'martin.gomez',
+      email: 'martin.gomez@alumno.com',
+      estado: true,
+      ultimo_acceso: '2026-10-08T14:30:00Z',
+    },
+    {
+      id: 3,
+      auth_user_id: '33333333-3333-4333-8333-333333333333',
+      nombre_usuario: 'lucia.fernandez',
+      email: 'lucia.fernandez@alumno.com',
+      estado: true,
+      ultimo_acceso: '2026-10-07T19:15:00Z',
+    },
+  ],
+  personas: [
+    {
+      id: 1,
+      id_usuario: 1,
+      rol: 'profesor',
+      nombre: 'Leandro',
+      apellido: 'Pirro',
+      fecha_nacimiento: '1988-04-12',
+      telefono: '+54 9 11 5555-0101',
+      url_foto: null,
+      estado: true,
+    },
+    {
+      id: 2,
+      id_usuario: 2,
+      rol: 'alumno',
+      nombre: 'Martín',
+      apellido: 'Gómez',
+      fecha_nacimiento: '1996-08-23',
+      telefono: '+54 9 11 5555-0202',
+      url_foto: null,
+      estado: true,
+    },
+    {
+      id: 3,
+      id_usuario: 3,
+      rol: 'alumno',
+      nombre: 'Lucía',
+      apellido: 'Fernández',
+      fecha_nacimiento: '1999-11-05',
+      telefono: '+54 9 11 5555-0303',
+      url_foto: null,
+      estado: true,
+    },
+  ],
+  gimnasios: [
+    {
+      id: 1,
+      id_profesor: 1,
+      nombre: 'Iron Temple Palermo',
+      direccion: 'Av. Santa Fe 4120, CABA',
+      horario_apertura: '07:00:00',
+      horario_cierre: '22:30:00',
+      estado: true,
+    },
+    {
+      id: 2,
+      id_profesor: 1,
+      nombre: 'Megatlon Caballito',
+      direccion: 'Av. Acoyte 540, CABA',
+      horario_apertura: '06:30:00',
+      horario_cierre: '23:00:00',
+      estado: true,
+    },
+  ],
+  perfil_alumno: [
+    {
+      id_persona: 2,
+      id_profesor: 1,
+      id_gimnasio: 1,
+      altura_cm: 178,
+      peso_kg: 79.5,
+      salud_enfermedades: 'Sin lesiones activas. Leve molestia previa en hombro derecho.',
+      fecha_ingreso: '2026-03-10',
+      cantidad_dias_rutina: 3,
+      comentario: 'Objetivo hipertrofia tren superior y fuerza base.',
+    },
+    {
+      id_persona: 3,
+      id_profesor: 1,
+      id_gimnasio: 2,
+      altura_cm: 165,
+      peso_kg: 61,
+      salud_enfermedades: 'Apto médico vigente sin restricciones.',
+      fecha_ingreso: '2026-05-18',
+      cantidad_dias_rutina: 4,
+      comentario: 'Enfoque en fuerza de tren inferior y estabilidad de core.',
+    },
+  ],
+  equipamiento: [
+    { id: 1, nombre: 'Rack de Sentadilla Olímpico', categoria: 'peso_libre', descripcion: 'Jaula de potencia con barras olímpicas de 20kg' },
+    { id: 2, nombre: 'Banco Plano e Inclinado con Mancuernas', categoria: 'peso_libre', descripcion: 'Bancos regulables y mancuernas de 2.5kg a 45kg' },
+    { id: 3, nombre: 'Polea Doble Regulable (Crossover)', categoria: 'maquina', descripcion: 'Torre de poleas enfrentadas con accesorios' },
+    { id: 4, nombre: 'Camilla de Isquiotibiales Sentado', categoria: 'maquina', descripcion: 'Máquina específica de flexión femoral sentado' },
+    { id: 5, nombre: 'Prensa 45 Grados', categoria: 'maquina', descripcion: 'Prensa inclinada a discos para tren inferior' },
+  ],
+  gimnasio_equipamiento: [
+    { id: 1, id_gimnasio: 1, id_equipamiento: 1, cantidad: 1, observaciones: 'Barras calibradas disponibles', estado: true },
+    { id: 2, id_gimnasio: 1, id_equipamiento: 2, cantidad: 1, observaciones: 'Mancuernas completas', estado: true },
+    { id: 3, id_gimnasio: 1, id_equipamiento: 3, cantidad: 1, observaciones: 'Poleas regulables', estado: true },
+    { id: 4, id_gimnasio: 1, id_equipamiento: 4, cantidad: 1, observaciones: 'Exclusiva en sede Palermo', estado: true },
+    { id: 5, id_gimnasio: 1, id_equipamiento: 5, cantidad: 1, observaciones: 'Prensa pesada', estado: true },
+    { id: 6, id_gimnasio: 2, id_equipamiento: 1, cantidad: 1, observaciones: 'Sector peso libre subsuelo', estado: true },
+    { id: 7, id_gimnasio: 2, id_equipamiento: 2, cantidad: 1, observaciones: 'Mancuernas completas', estado: true },
+    { id: 8, id_gimnasio: 2, id_equipamiento: 3, cantidad: 1, observaciones: 'Planta principal', estado: true },
+    { id: 9, id_gimnasio: 2, id_equipamiento: 5, cantidad: 1, observaciones: 'Prensa estándar', estado: true },
+  ],
+  ejercicios: [
+    { id: 1, id_profesor: 1, nombre: 'Press Plano con Mancuernas', grupo_muscular: 'Pectorales', requiere_equipamiento: true, id_equipamiento_requerido: 2, indicaciones: 'Retracción escapular constante, bajar controlado en 2 segundos.', url_video: 'https://youtube.com/watch?v=demo1', estado: true },
+    { id: 2, id_profesor: 1, nombre: 'Remo en Polea Baja con Triángulo', grupo_muscular: 'Espalda', requiere_equipamiento: true, id_equipamiento_requerido: 3, indicaciones: 'Pecho alto, llevar el agarre al abdomen bajo sin balancear torso.', url_video: 'https://youtube.com/watch?v=demo2', estado: true },
+    { id: 3, id_profesor: 1, nombre: 'Sentadilla Libre con Barra', grupo_muscular: 'Cuádriceps / Glúteos', requiere_equipamiento: true, id_equipamiento_requerido: 1, indicaciones: 'Profundidad rompiendo paralelo manteniendo presión abdominal.', url_video: 'https://youtube.com/watch?v=demo3', estado: true },
+    { id: 4, id_profesor: 1, nombre: 'Camilla Femoral Sentado', grupo_muscular: 'Isquiotibiales', requiere_equipamiento: true, id_equipamiento_requerido: 4, indicaciones: 'Pausa de 1 segundo en máxima contracción.', url_video: 'https://youtube.com/watch?v=demo4', estado: true },
+    { id: 5, id_profesor: 1, nombre: 'Prensa 45 Grados', grupo_muscular: 'Cuádriceps', requiere_equipamiento: true, id_equipamiento_requerido: 5, indicaciones: 'Pies ancho de hombros, no bloquear rodillas arriba.', url_video: 'https://youtube.com/watch?v=demo5', estado: true },
+    { id: 6, id_profesor: 1, nombre: 'Plancha Abdominal RKC', grupo_muscular: 'Core / Zona Media', requiere_equipamiento: false, id_equipamiento_requerido: null, indicaciones: 'Contracción máxima de glúteos y abdomen durante 30-45 seg.', url_video: null, estado: true },
+  ],
+  rutinas: [
+    { id: 1, id_alumno: 2, id_profesor: 1, numero_dia: 1, nombre_rutina: 'Día 1 — Fuerza e Hipertrofia Tren Superior', activa: true },
+    { id: 2, id_alumno: 2, id_profesor: 1, numero_dia: 2, nombre_rutina: 'Día 2 — Potencia Tren Inferior & Core', activa: true },
+    { id: 3, id_alumno: 3, id_profesor: 1, numero_dia: 1, nombre_rutina: 'Día 1 — Énfasis Tren Inferior & Glúteos', activa: true },
+  ],
+  rutina_ejercicios: [
+    { id: 1, id_rutina: 1, id_ejercicio: 1, orden: 1, series_objetivo: 4, repeticiones_objetivo: '8-10', notas_profesor: 'Subir 2.5kg si completás las 4 series de 10 con buena técnica.' },
+    { id: 2, id_rutina: 1, id_ejercicio: 2, orden: 2, series_objetivo: 4, repeticiones_objetivo: '10-12', notas_profesor: 'Controlar la fase excéntrica.' },
+    { id: 3, id_rutina: 1, id_ejercicio: 6, orden: 3, series_objetivo: 3, repeticiones_objetivo: '40 seg', notas_profesor: 'Descanso corto de 45 segundos entre series.' },
+    { id: 4, id_rutina: 2, id_ejercicio: 3, orden: 1, series_objetivo: 4, repeticiones_objetivo: '6-8', notas_profesor: 'Priorizar velocidad de subida.' },
+    { id: 5, id_rutina: 2, id_ejercicio: 4, orden: 2, series_objetivo: 3, repeticiones_objetivo: '12', notas_profesor: 'Aislar isquiotibiales sin despegar cadera.' },
+    { id: 6, id_rutina: 3, id_ejercicio: 3, orden: 1, series_objetivo: 4, repeticiones_objetivo: '8', notas_profesor: 'Serie de aproximación previa obligatoria.' },
+    { id: 7, id_rutina: 3, id_ejercicio: 5, orden: 2, series_objetivo: 4, repeticiones_objetivo: '10-12', notas_profesor: 'Rango completo de movimiento.' },
+  ],
+  registros_rutina: [
+    {
+      id: 1,
+      client_submission_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+      id_alumno: 2,
+      id_rutina: 1,
+      fecha_realizacion: '2026-10-06',
+    },
+  ],
+  detalle_series: [
+    { id: 1, id_registro_rutina: 1, id_ejercicio: 1, numero_serie: 1, repeticiones_objetivo: '8-10', repeticiones_realizadas: 10, peso_utilizado: 30, comentario_alumno: 'Muy firme el primer set' },
+    { id: 2, id_registro_rutina: 1, id_ejercicio: 1, numero_serie: 2, repeticiones_objetivo: '8-10', repeticiones_realizadas: 10, peso_utilizado: 32.5, comentario_alumno: 'Subí a mancuernas de 32.5kg' },
+    { id: 3, id_registro_rutina: 1, id_ejercicio: 1, numero_serie: 3, repeticiones_objetivo: '8-10', repeticiones_realizadas: 9, peso_utilizado: 32.5, comentario_alumno: null },
+    { id: 4, id_registro_rutina: 1, id_ejercicio: 1, numero_serie: 4, repeticiones_objetivo: '8-10', repeticiones_realizadas: 8, peso_utilizado: 32.5, comentario_alumno: 'Al fallo técnico en la última' },
+    { id: 5, id_registro_rutina: 1, id_ejercicio: 2, numero_serie: 1, repeticiones_objetivo: '10-12', repeticiones_realizadas: 12, peso_utilizado: 65, comentario_alumno: 'Buen agarre' },
+    { id: 6, id_registro_rutina: 1, id_ejercicio: 2, numero_serie: 2, repeticiones_objetivo: '10-12', repeticiones_realizadas: 11, peso_utilizado: 70, comentario_alumno: null },
+  ],
+}
+
+export function createInitialMockDb() {
+  return JSON.parse(JSON.stringify(INITIAL_SEED))
+}
