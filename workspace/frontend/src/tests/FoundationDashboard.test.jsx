@@ -1,11 +1,20 @@
-// Anchored to REQ-FND-003, REQ-FND-014, REQ-FND-015
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
-import { App } from '@/App'
+import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
+import { DevDataToolbar } from '@/components/dev/DevDataToolbar'
+
+function FoundationTestWrapper() {
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <FoundationDashboard theme="dark" refreshToken={0} />
+      <DevDataToolbar />
+    </div>
+  )
+}
 
 describe('Tablero Fundacional y DevDataToolbar (UI Integration)', () => {
   test('REQ-FND-014: Renderiza los alumnos semilla, el laboratorio Offline-First y la píldora DEV colapsable', async () => {
-    render(<App />)
+    render(<FoundationTestWrapper />)
 
     await waitFor(() => {
       expect(screen.getAllByText(/Martín Gómez/i).length).toBeGreaterThan(0)
@@ -28,7 +37,7 @@ describe('Tablero Fundacional y DevDataToolbar (UI Integration)', () => {
   })
 
   test('REQ-FND-014: Permite expandir el DevDataToolbar y restaurar la semilla Mock', async () => {
-    render(<App />)
+    render(<FoundationTestWrapper />)
 
     const devPill = screen.getByRole('button', { name: /DEV: MOCK LOCAL/i })
     fireEvent.click(devPill)
