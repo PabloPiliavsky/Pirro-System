@@ -8,11 +8,26 @@ import { ProfesorLayout } from './layouts/ProfesorLayout'
 import { AlumnoLayout } from './layouts/AlumnoLayout'
 import { ProfesorHome } from '@/features/auth/pages/ProfesorHome'
 import { AlumnoHome } from '@/features/auth/pages/AlumnoHome'
+import { GimnasiosPage } from '@/features/gimnasios/components/GimnasiosPage'
+import { EjerciciosPage } from '@/features/ejercicios/components/EjerciciosPage'
 import { FeaturePlaceholder } from './layouts/FeaturePlaceholder'
 import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
 
 export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
-  const { role, isAuthenticated } = useAuth()
+  const { role, isAuthenticated, isLoading } = useAuth()
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+        <div className="flex flex-col items-center gap-3">
+          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <span className="text-sm font-medium text-muted-foreground tracking-wide">
+            Cargando aplicación...
+          </span>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Routes>
@@ -32,26 +47,8 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         }
       >
         <Route index element={<ProfesorHome />} />
-        <Route
-          path="gimnasios"
-          element={
-            <FeaturePlaceholder
-              title="Gimnasios y Equipamiento"
-              description="Administración de sedes y maquinaria"
-              specNumber="specs/003-gimnasios-y-ejercicios"
-            />
-          }
-        />
-        <Route
-          path="ejercicios"
-          element={
-            <FeaturePlaceholder
-              title="Catálogo de Ejercicios"
-              description="Movimientos, grupos musculares y requerimientos"
-              specNumber="specs/003-gimnasios-y-ejercicios"
-            />
-          }
-        />
+        <Route path="gimnasios" element={<GimnasiosPage />} />
+        <Route path="ejercicios" element={<EjerciciosPage />} />
         <Route
           path="alumnos"
           element={

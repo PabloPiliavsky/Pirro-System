@@ -1,6 +1,15 @@
-// Anchored to REQ-FND-004, REQ-FND-008, REQ-FND-011, REQ-FND-012
+// Anchored to REQ-FND-004, REQ-FND-008, REQ-FND-011, REQ-FND-012, REQ-GYM-001, REQ-EJE-001
 import { getSupabaseClient } from '../supabaseClient'
 import { validateTrainingBatchPayload } from '../validators/trainingBatchValidator'
+import { validateGimnasioPayload } from '../validators/gimnasiosValidator'
+import { validateEjercicioPayload } from '../validators/ejerciciosValidator'
+import {
+  saveGimnasioSupabase,
+  deleteGimnasioSupabase,
+  saveEjercicioSupabase,
+  deleteEjercicioSupabase,
+  saveEquipamientoSupabase,
+} from './supabaseAdapterMutations'
 
 async function fetchAlumnosRelacional(supabase) {
   const { data, error } = await supabase
@@ -94,13 +103,74 @@ export const supabaseAdapter = {
     return fetchGimnasiosRelacional(getSupabaseClient())
   },
 
-  async getEjercicios() {
+  async getEquipamientoMaestro() {
     const { data, error } = await getSupabaseClient()
-      .from('ejercicios')
+      .from('equipamiento')
       .select('*')
       .order('id', { ascending: true })
     if (error) throw error
     return data || []
+  },
+
+  async guardarEquipamiento(payload) {
+    if (!payload?.nombre?.trim()) {
+      return { ok: false, error: { message: 'El nombre del equipamiento es obligatorio' } }
+    }
+    try {
+      const data = await saveEquipamientoSupabase(getSupabaseClient(), payload)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async guardarGimnasio(payload) {
+    const validation = validateGimnasioPayload(payload)
+    if (!validation.ok) return validation
+    try {
+      const data = await saveGimnasioSupabase(getSupabaseClient(), payload)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async eliminarGimnasio(id) {
+    try {
+      const success = await deleteGimnasioSupabase(getSupabaseClient(), id)
+      return { ok: success }
+    } catch (err) {
+      return { ok: false, error: { code: 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async getEjercicios() {
+    const { data, error } = await getSupabaseClient()
+      .from('ejercicios')
+      .select('*, equipamiento_requerido:equipamiento(*)')
+      .order('id', { ascending: true })
+    if (error) throw error
+    return data || []
+  },
+
+  async guardarEjercicio(payload) {
+    const validation = validateEjercicioPayload(payload)
+    if (!validation.ok) return validation
+    try {
+      const data = await saveEjercicioSupabase(getSupabaseClient(), payload)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async eliminarEjercicio(id) {
+    try {
+      const success = await deleteEjercicioSupabase(getSupabaseClient(), id)
+      return { ok: success }
+    } catch (err) {
+      return { ok: false, error: { code: 'SUPABASE_ERROR', message: err.message } }
+    }
   },
 
   async getRutinasByAlumno(idAlumno) {

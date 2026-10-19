@@ -1,12 +1,22 @@
-// Anchored to REQ-FND-008, REQ-FND-011, REQ-FND-012
+// Anchored to REQ-FND-008, REQ-FND-011, REQ-FND-012, REQ-GYM-001, REQ-EJE-001
 import { createInitialMockDb } from '../seed/mockSeedData'
 import { validateTrainingBatchPayload } from '../validators/trainingBatchValidator'
+import { validateGimnasioPayload } from '../validators/gimnasiosValidator'
+import { validateEjercicioPayload } from '../validators/ejerciciosValidator'
 import {
   buildAlumnosView,
   buildGimnasiosView,
+  buildEjerciciosView,
   buildRutinasByAlumno,
   buildSystemSummaryView,
 } from './mockAdapterQueries'
+import {
+  saveGimnasioMock,
+  deleteGimnasioMock,
+  saveEjercicioMock,
+  deleteEjercicioMock,
+  saveEquipamientoMock,
+} from './mockAdapterMutations'
 
 export const MOCK_DB_STORAGE_KEY = 'pirro_mock_db_v1'
 
@@ -69,8 +79,54 @@ export const mockAdapter = {
     return buildGimnasiosView(loadMockDb())
   },
 
+  async getEquipamientoMaestro() {
+    return loadMockDb().equipamiento
+  },
+
+  async guardarEquipamiento(payload) {
+    if (!payload?.nombre?.trim()) {
+      return { ok: false, error: { message: 'El nombre del equipamiento es obligatorio' } }
+    }
+    const db = loadMockDb()
+    const data = saveEquipamientoMock(db, payload)
+    saveMockDb(db)
+    return { ok: true, data }
+  },
+
+  async guardarGimnasio(payload) {
+    const validation = validateGimnasioPayload(payload)
+    if (!validation.ok) return validation
+    const db = loadMockDb()
+    const data = saveGimnasioMock(db, payload)
+    saveMockDb(db)
+    return { ok: true, data }
+  },
+
+  async eliminarGimnasio(id) {
+    const db = loadMockDb()
+    const success = deleteGimnasioMock(db, id)
+    saveMockDb(db)
+    return { ok: success }
+  },
+
   async getEjercicios() {
-    return loadMockDb().ejercicios
+    return buildEjerciciosView(loadMockDb())
+  },
+
+  async guardarEjercicio(payload) {
+    const validation = validateEjercicioPayload(payload)
+    if (!validation.ok) return validation
+    const db = loadMockDb()
+    const data = saveEjercicioMock(db, payload)
+    saveMockDb(db)
+    return { ok: true, data }
+  },
+
+  async eliminarEjercicio(id) {
+    const db = loadMockDb()
+    const success = deleteEjercicioMock(db, id)
+    saveMockDb(db)
+    return { ok: success }
   },
 
   async getRutinasByAlumno(idAlumno) {
