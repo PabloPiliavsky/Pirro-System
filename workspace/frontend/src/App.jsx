@@ -1,6 +1,8 @@
-// Anchored to REQ-FND-001, REQ-FND-014
+// Anchored to REQ-AUTH-006, REQ-FND-001, REQ-FND-014
 import { useEffect, useState } from 'react'
-import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
+import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from '@/features/auth/context/AuthContext'
+import { AppRoutes } from '@/app/AppRoutes'
 import { DevDataToolbar } from '@/components/dev/DevDataToolbar'
 
 export function App() {
@@ -25,14 +27,18 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <FoundationDashboard
-        theme={theme}
-        onToggleTheme={handleToggleTheme}
-        refreshToken={refreshToken}
-      />
-      <DevDataToolbar onDataChanged={handleDataChanged} />
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <div className="min-h-screen bg-background text-foreground">
+          <AppRoutes
+            theme={theme}
+            onToggleTheme={handleToggleTheme}
+            refreshToken={refreshToken}
+          />
+          <DevDataToolbar onDataChanged={handleDataChanged} />
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 
