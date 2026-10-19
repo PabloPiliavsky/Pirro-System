@@ -62,3 +62,13 @@ export function buildSystemSummaryView(db) {
     })),
   }
 }
+
+export function buildEjerciciosView(db) {
+  return db.ejercicios.map((ej) => ({
+    ...ej,
+    equipamiento_requerido: ej.id_equipamiento_requerido
+      ? db.equipamiento.find((eq) => eq.id === ej.id_equipamiento_requerido) || null
+      : null,
+  }))
+}
+
