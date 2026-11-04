@@ -8,12 +8,13 @@ import { ProfesorLayout } from './layouts/ProfesorLayout'
 import { AlumnoLayout } from './layouts/AlumnoLayout'
 import { ProfesorHome } from '@/features/auth/pages/ProfesorHome'
 import { AlumnoHome } from '@/features/auth/pages/AlumnoHome'
+import { GimnasiosPage } from '@/features/gimnasios/components/GimnasiosPage'
+import { EjerciciosPage } from '@/features/ejercicios/components/EjerciciosPage'
 import { FeaturePlaceholder } from './layouts/FeaturePlaceholder'
 import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
+import { VStack } from '@/components/ui/VStack'
 
-const PROFESOR_MODULES = [
-  { path: 'gimnasios', title: 'Gimnasios y Equipamiento', desc: 'Administración de sedes y maquinaria', spec: 'specs/003-gimnasios-y-ejercicios' },
-  { path: 'ejercicios', title: 'Catálogo de Ejercicios', desc: 'Movimientos, grupos musculares y requerimientos', spec: 'specs/003-gimnasios-y-ejercicios' },
+const PROFESOR_PLACEHOLDER_MODULES = [
   { path: 'alumnos', title: 'Gestión de Alumnos', desc: 'Altas, fichas físicas y seguimiento', spec: 'specs/004-gestion-alumnos' },
   { path: 'rutinas', title: 'Constructor de Rutinas', desc: 'Planificación semanal por día', spec: 'specs/005-constructor-rutinas' },
   { path: 'progreso', title: 'Progreso y Reportes Excel', desc: 'Evolución de cargas y exportación .xlsx', spec: 'specs/007-progreso-y-exportacion-excel' },
@@ -26,7 +27,20 @@ const ALUMNO_MODULES = [
 ]
 
 export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
-  const { role, isAuthenticated } = useAuth()
+  const { role, isAuthenticated, isLoading } = useAuth()
+
+  if (isLoading) {
+    return (
+      <VStack justify="center" align="center" className="min-h-screen bg-background text-foreground">
+        <VStack align="center" className="gap-3">
+          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <span className="text-sm font-medium text-muted-foreground tracking-wide">
+            Cargando aplicación...
+          </span>
+        </VStack>
+      </VStack>
+    )
+  }
 
   return (
     <Routes>
@@ -43,7 +57,9 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         }
       >
         <Route index element={<ProfesorHome />} />
-        {PROFESOR_MODULES.map((m) => (
+        <Route path="gimnasios" element={<GimnasiosPage />} />
+        <Route path="ejercicios" element={<EjerciciosPage />} />
+        {PROFESOR_PLACEHOLDER_MODULES.map((m) => (
           <Route
             key={m.path}
             path={m.path}
