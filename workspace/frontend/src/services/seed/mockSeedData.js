@@ -1,3 +1,4 @@
+// TODO: [MOCK-CLEANUP] Eliminar este archivo completamente cuando la fase de desarrollo/test mock finalice y se utilice exclusivamente Supabase.
 // ============================================================================
 // PIRRO-SYSTEM — DATOS SEMILLA ESPEJO EXACTO DE workspace/supabase/seed.sql
 // Anchored to REQ-FND-004, REQ-FND-005, REQ-FND-006, REQ-FND-009

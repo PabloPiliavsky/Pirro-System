@@ -1,3 +1,4 @@
+// TODO: [MOCK-CLEANUP] Eliminar este archivo completamente cuando la fase de desarrollo/test mock finalice y se utilice exclusivamente Supabase.
 // Anchored to REQ-FND-004, REQ-FND-005, REQ-FND-006
 export function buildAlumnosView(db) {
   return db.perfil_alumno.map((perfil) => {
