@@ -1,5 +1,5 @@
 // Anchored to REQ-EJE-001, REQ-EJE-006
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   fetchEjercicios,
   saveEjercicio,
@@ -13,10 +13,9 @@ export function useEjercicios() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
-  // selectedMuscles es un Set o Array con los nombres seleccionados. Vacío = todos.
   const [selectedMuscles, setSelectedMuscles] = useState([])
 
-  const reload = useCallback(async () => {
+  const reload = async () => {
     setLoading(true)
     setError(null)
     try {
@@ -31,11 +30,11 @@ export function useEjercicios() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }
 
   useEffect(() => {
     reload()
-  }, [reload])
+  }, [])
 
   const toggleMuscleFilter = (muscle) => {
     if (muscle === 'TODOS') {

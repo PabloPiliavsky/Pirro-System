@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   fetchGimnasios,
   fetchEquipamientoMaestro,
@@ -14,7 +14,7 @@ export function useGimnasios() {
   const [error, setError] = useState(null)
   const [filterStatus, setFilterStatus] = useState('ALL') // 'ALL' | 'ACTIVE' | 'INACTIVE'
 
-  const reload = useCallback(async () => {
+  const reload = async () => {
     setLoading(true)
     setError(null)
     try {
@@ -29,11 +29,11 @@ export function useGimnasios() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }
 
   useEffect(() => {
     reload()
-  }, [reload])
+  }, [])
 
   const filteredGimnasios = useMemo(() => {
     if (filterStatus === 'ACTIVE') return gimnasios.filter((g) => g.estado)

@@ -1,4 +1,5 @@
 // Anchored to REQ-EJE-001, REQ-EJE-002, REQ-EJE-005, REQ-GYM-007
+// TODO: [MOCK-CLEANUP] Retirar consumo mediante getProvider() y conectar directamente a supabaseAdapter cuando se retire mockAdapter.
 import { getProvider } from './dataProvider'
 
 export async function fetchEjercicios() {
