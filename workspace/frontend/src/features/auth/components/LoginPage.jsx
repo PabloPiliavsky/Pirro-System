@@ -3,8 +3,10 @@ import { useState } from 'react'
 import { Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/features/auth/context/AuthContext'
 import { LoginForm } from './LoginForm'
+import { LoginBrandingHeader } from './LoginBrandingHeader'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Dumbbell, Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
+import { VStack } from '@/components/ui/VStack'
 
 export function LoginPage({ theme, onToggleTheme }) {
   const { isAuthenticated, role, login } = useAuth()
@@ -18,7 +20,7 @@ export function LoginPage({ theme, onToggleTheme }) {
     return <Navigate to={destination} replace />
   }
 
-  async function handleLogin(credentials) {
+  const handleLogin = async (credentials) => {
     setIsSubmitting(true)
     setErrorMessage('')
     try {
@@ -37,7 +39,11 @@ export function LoginPage({ theme, onToggleTheme }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-8 bg-background relative overflow-hidden">
+    <VStack
+      justify="center"
+      align="center"
+      className="min-h-screen px-4 py-8 bg-background relative overflow-hidden"
+    >
       {onToggleTheme && (
         <button
           type="button"
@@ -49,18 +55,8 @@ export function LoginPage({ theme, onToggleTheme }) {
         </button>
       )}
 
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center size-14 rounded-2xl bg-primary/10 border border-primary/30 text-primary shadow-lg shadow-primary/10 mb-1">
-            <Dumbbell className="size-8" />
-          </div>
-          <h1 className="text-2xl font-black tracking-tight text-foreground uppercase">
-            Pirro <span className="text-primary font-bold">System</span>
-          </h1>
-          <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">
-            Entrenamiento de Alto Rendimiento
-          </p>
-        </div>
+      <VStack className="w-full max-w-md gap-6">
+        <LoginBrandingHeader />
 
         <Card className="border-border bg-card/90 shadow-xl backdrop-blur-sm">
           <CardHeader className="pb-4">
@@ -77,8 +73,8 @@ export function LoginPage({ theme, onToggleTheme }) {
             />
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </VStack>
+    </VStack>
   )
 }
 

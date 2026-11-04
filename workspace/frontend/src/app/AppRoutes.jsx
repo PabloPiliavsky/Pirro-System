@@ -11,15 +11,26 @@ import { AlumnoHome } from '@/features/auth/pages/AlumnoHome'
 import { FeaturePlaceholder } from './layouts/FeaturePlaceholder'
 import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
 
+const PROFESOR_MODULES = [
+  { path: 'gimnasios', title: 'Gimnasios y Equipamiento', desc: 'Administración de sedes y maquinaria', spec: 'specs/003-gimnasios-y-ejercicios' },
+  { path: 'ejercicios', title: 'Catálogo de Ejercicios', desc: 'Movimientos, grupos musculares y requerimientos', spec: 'specs/003-gimnasios-y-ejercicios' },
+  { path: 'alumnos', title: 'Gestión de Alumnos', desc: 'Altas, fichas físicas y seguimiento', spec: 'specs/004-gestion-alumnos' },
+  { path: 'rutinas', title: 'Constructor de Rutinas', desc: 'Planificación semanal por día', spec: 'specs/005-constructor-rutinas' },
+  { path: 'progreso', title: 'Progreso y Reportes Excel', desc: 'Evolución de cargas y exportación .xlsx', spec: 'specs/007-progreso-y-exportacion-excel' },
+]
+
+const ALUMNO_MODULES = [
+  { path: 'rutinas', title: 'Rutinas Asignadas', desc: 'Tus días y ejercicios de la semana', spec: 'specs/006-planilla-entrenamiento-alumno' },
+  { path: 'historial', title: 'Historial de Entrenamientos', desc: 'Consultá tus pesos y repeticiones previas', spec: 'specs/006-planilla-entrenamiento-alumno' },
+  { path: 'perfil', title: 'Mi Ficha', desc: 'Datos personales, gimnasio y profesor', spec: 'specs/004-gestion-alumnos' },
+]
+
 export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
   const { role, isAuthenticated } = useAuth()
 
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={<LoginPage theme={theme} onToggleTheme={onToggleTheme} />}
-      />
+      <Route path="/login" element={<LoginPage theme={theme} onToggleTheme={onToggleTheme} />} />
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
       {/* Rutas Protegidas del Profesor */}
@@ -32,69 +43,22 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         }
       >
         <Route index element={<ProfesorHome />} />
-        <Route
-          path="gimnasios"
-          element={
-            <FeaturePlaceholder
-              title="Gimnasios y Equipamiento"
-              description="Administración de sedes y maquinaria"
-              specNumber="specs/003-gimnasios-y-ejercicios"
-            />
-          }
-        />
-        <Route
-          path="ejercicios"
-          element={
-            <FeaturePlaceholder
-              title="Catálogo de Ejercicios"
-              description="Movimientos, grupos musculares y requerimientos"
-              specNumber="specs/003-gimnasios-y-ejercicios"
-            />
-          }
-        />
-        <Route
-          path="alumnos"
-          element={
-            <FeaturePlaceholder
-              title="Gestión de Alumnos"
-              description="Altas, fichas físicas y seguimiento"
-              specNumber="specs/004-gestion-alumnos"
-            />
-          }
-        />
-        <Route
-          path="rutinas"
-          element={
-            <FeaturePlaceholder
-              title="Constructor de Rutinas"
-              description="Planificación semanal por día"
-              specNumber="specs/005-constructor-rutinas"
-            />
-          }
-        />
-        <Route
-          path="progreso"
-          element={
-            <FeaturePlaceholder
-              title="Progreso y Reportes Excel"
-              description="Evolución de cargas y exportación .xlsx"
-              specNumber="specs/007-progreso-y-exportacion-excel"
-            />
-          }
-        />
+        {PROFESOR_MODULES.map((m) => (
+          <Route
+            key={m.path}
+            path={m.path}
+            element={<FeaturePlaceholder title={m.title} description={m.desc} specNumber={m.spec} />}
+          />
+        ))}
         <Route
           path="laboratorio"
           element={
-            <FoundationDashboard
-              theme={theme}
-              onToggleTheme={onToggleTheme}
-              refreshToken={refreshToken}
-            />
+            <FoundationDashboard theme={theme} onToggleTheme={onToggleTheme} refreshToken={refreshToken} />
           }
         />
       </Route>
 
-      {/* Rutas Protegidas del Alumno (100% Mobile-First) */}
+      {/* Rutas Protegidas del Alumno */}
       <Route
         path="/alumno"
         element={
@@ -104,36 +68,13 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         }
       >
         <Route index element={<AlumnoHome />} />
-        <Route
-          path="rutinas"
-          element={
-            <FeaturePlaceholder
-              title="Rutinas Asignadas"
-              description="Tus días y ejercicios de la semana"
-              specNumber="specs/006-planilla-entrenamiento-alumno"
-            />
-          }
-        />
-        <Route
-          path="historial"
-          element={
-            <FeaturePlaceholder
-              title="Historial de Entrenamientos"
-              description="Consultá tus pesos y repeticiones previas"
-              specNumber="specs/006-planilla-entrenamiento-alumno"
-            />
-          }
-        />
-        <Route
-          path="perfil"
-          element={
-            <FeaturePlaceholder
-              title="Mi Ficha"
-              description="Datos personales, gimnasio y profesor"
-              specNumber="specs/004-gestion-alumnos"
-            />
-          }
-        />
+        {ALUMNO_MODULES.map((m) => (
+          <Route
+            key={m.path}
+            path={m.path}
+            element={<FeaturePlaceholder title={m.title} description={m.desc} specNumber={m.spec} />}
+          />
+        ))}
       </Route>
 
       {/* Redirección por defecto */}
@@ -141,13 +82,7 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         path="*"
         element={
           <Navigate
-            to={
-              !isAuthenticated
-                ? '/login'
-                : role === 'profesor'
-                  ? '/profesor'
-                  : '/alumno'
-            }
+            to={!isAuthenticated ? '/login' : role === 'profesor' ? '/profesor' : '/alumno'}
             replace
           />
         }

@@ -9,6 +9,8 @@ import {
   LayoutDashboard,
   Users,
 } from 'lucide-react'
+import { HStack } from '@/components/ui/HStack'
+import { VStack } from '@/components/ui/VStack'
 
 const NAV_ITEMS = [
   { label: 'Panel Principal', path: '/profesor', icon: LayoutDashboard, end: true },
@@ -22,16 +24,17 @@ const NAV_ITEMS = [
 
 export function ProfesorSidebar({ isOpen, onClose }) {
   return (
-    <aside
-      className={`fixed md:sticky top-0 left-0 z-30 h-screen w-64 bg-card border-r border-border flex flex-col transition-transform duration-200 ease-in-out ${
+    <VStack
+      as="aside"
+      className={`fixed md:sticky top-0 left-0 z-30 h-screen w-64 bg-card border-r border-border transition-transform duration-200 ease-in-out ${
         isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}
     >
-      <div className="h-16 flex items-center px-6 border-b border-border">
+      <HStack className="h-16 px-6 border-b border-border">
         <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
           Gestión del Profesor
         </span>
-      </div>
+      </HStack>
 
       <nav className="flex-1 overflow-y-auto p-4 space-y-1">
         {NAV_ITEMS.map((item) => {
@@ -56,6 +59,6 @@ export function ProfesorSidebar({ isOpen, onClose }) {
           )
         })}
       </nav>
-    </aside>
+    </VStack>
   )
 }

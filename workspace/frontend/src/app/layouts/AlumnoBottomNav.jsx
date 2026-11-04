@@ -1,6 +1,7 @@
 // Anchored to REQ-AUTH-011
 import { NavLink } from 'react-router-dom'
 import { CalendarDays, Dumbbell, History, User } from 'lucide-react'
+import { VStack } from '@/components/ui/VStack'
 
 const NAV_TABS = [
   { label: 'Entrenar', path: '/alumno', icon: Dumbbell, end: true },
@@ -21,15 +22,17 @@ export function AlumnoBottomNav() {
               to={tab.path}
               end={tab.end}
               className={({ isActive }) =>
-                `flex flex-col items-center justify-center min-h-14 gap-1 select-none transition-colors ${
+                `min-h-14 select-none transition-colors ${
                   isActive
                     ? 'text-primary font-bold'
                     : 'text-muted-foreground hover:text-foreground'
                 }`
               }
             >
-              <Icon className="size-5" />
-              <span className="text-[11px] leading-none tracking-tight">{tab.label}</span>
+              <VStack align="center" justify="center" className="h-full gap-1">
+                <Icon className="size-5" />
+                <span className="text-[11px] leading-none tracking-tight">{tab.label}</span>
+              </VStack>
             </NavLink>
           )
         })}

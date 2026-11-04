@@ -1,6 +1,9 @@
+// TODO: [MOCK-CLEANUP] Eliminar este componente cuando finalice la fase de desarrollo y no se requieran accesos rápidos demo.
 // Anchored to REQ-AUTH-012
 import { Button } from '@/components/ui/button'
 import { Dumbbell, GraduationCap, ShieldCheck } from 'lucide-react'
+import { HStack } from '@/components/ui/HStack'
+import { VStack } from '@/components/ui/VStack'
 
 const DEMO_USERS = [
   {
@@ -30,11 +33,11 @@ export function DevQuickLogin({ onSelectAccount, isSubmitting }) {
   if (!import.meta.env.DEV) return null
 
   return (
-    <div className="mt-4 rounded-lg border border-dashed border-border/80 bg-secondary/30 p-3">
-      <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-primary uppercase tracking-wider">
+    <VStack className="mt-4 gap-2 rounded-lg border border-dashed border-border/80 bg-secondary/30 p-3">
+      <HStack className="gap-1.5 text-xs font-semibold text-primary uppercase tracking-wider">
         <ShieldCheck className="size-3.5" />
         <span>Acceso Rápido de Desarrollo</span>
-      </div>
+      </HStack>
       <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-3">
         {DEMO_USERS.map((item) => {
           const Icon = item.icon
@@ -54,6 +57,6 @@ export function DevQuickLogin({ onSelectAccount, isSubmitting }) {
           )
         })}
       </div>
-    </div>
+    </VStack>
   )
 }
