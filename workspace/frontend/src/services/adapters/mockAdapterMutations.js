@@ -1,3 +1,4 @@
+// TODO: [MOCK-CLEANUP] Eliminar este archivo completamente cuando la fase de desarrollo/test mock finalice y se utilice exclusivamente Supabase.
 // Anchored to REQ-GYM-002, REQ-GYM-004, REQ-EJE-002, REQ-EJE-005
 
 export function saveGimnasioMock(db, payload) {

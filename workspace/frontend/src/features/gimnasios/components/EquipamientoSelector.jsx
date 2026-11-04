@@ -1,5 +1,9 @@
 // Anchored to REQ-GYM-002, REQ-GYM-005
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { HStack } from '@/components/ui/HStack'
+import { VStack } from '@/components/ui/VStack'
+import { NewEquipamientoInlineForm } from './NewEquipamientoInlineForm'
+import { EquipamientoCheckboxList } from './EquipamientoCheckboxList'
 
 export function EquipamientoSelector({
   equipamientoList = [],
@@ -27,8 +31,8 @@ export function EquipamientoSelector({
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
+    <VStack>
+      <HStack justify="between" className="mb-2">
         <label className="block text-xs font-semibold text-slate-300 uppercase">
           Equipamiento Disponible
         </label>
@@ -39,47 +43,22 @@ export function EquipamientoSelector({
         >
           {showNewEqInput ? 'Cancelar' : '+ Agregar nuevo equipamiento'}
         </button>
-      </div>
+      </HStack>
 
       {showNewEqInput && (
-        <div className="p-3 mb-2 bg-slate-950/80 border border-slate-800 rounded-lg flex items-center gap-2">
-          <input
-            type="text"
-            value={newEqName}
-            onChange={(e) => setNewEqName(e.target.value)}
-            placeholder="Nombre de la nueva máquina o accesorio..."
-            className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-primary"
-          />
-          <button
-            type="button"
-            onClick={handleCreate}
-            disabled={!newEqName.trim() || creatingEq}
-            className="px-3 py-1.5 bg-primary hover:bg-primary-hover disabled:opacity-50 text-white text-xs font-semibold rounded-lg transition cursor-pointer"
-          >
-            {creatingEq ? 'Guardando...' : 'Crear'}
-          </button>
-        </div>
+        <NewEquipamientoInlineForm
+          newEqName={newEqName}
+          onNameChange={setNewEqName}
+          onCreate={handleCreate}
+          creatingEq={creatingEq}
+        />
       )}
 
-      <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto p-2 bg-slate-950 border border-slate-800 rounded-lg">
-        {equipamientoList.map((eq) => {
-          const checked = selectedEq.includes(eq.id)
-          return (
-            <label
-              key={eq.id}
-              className="flex items-center gap-2 text-xs text-slate-300 p-1.5 rounded hover:bg-slate-900 cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={() => onToggleEq(eq.id)}
-                className="rounded bg-slate-900 border-slate-700 text-primary focus:ring-0 cursor-pointer"
-              />
-              <span>{eq.nombre}</span>
-            </label>
-          )
-        })}
-      </div>
-    </div>
+      <EquipamientoCheckboxList
+        equipamientoList={equipamientoList}
+        selectedEq={selectedEq}
+        onToggleEq={onToggleEq}
+      />
+    </VStack>
   )
 }
