@@ -3,6 +3,8 @@
 import { Database, RotateCcw, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { HStack } from '@/components/ui/HStack'
+import { VStack } from '@/components/ui/VStack'
 
 export function DevDataToolbarExpanded({
   mode,
@@ -12,12 +14,12 @@ export function DevDataToolbarExpanded({
   onResetSeed,
 }) {
   return (
-    <div className="flex flex-col gap-2 rounded-xl border border-border bg-card/95 p-3 shadow-lg backdrop-blur">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-1.5">
+    <VStack className="gap-2 rounded-xl border border-border bg-card/95 p-3 shadow-lg backdrop-blur">
+      <HStack justify="between" className="gap-4">
+        <HStack className="gap-1.5">
           <Database className="size-3.5 text-primary" />
           <span className="font-semibold text-foreground">Entorno DEV</span>
-        </div>
+        </HStack>
         <button
           type="button"
           aria-label="Minimizar barra DEV"
@@ -26,8 +28,8 @@ export function DevDataToolbarExpanded({
         >
           <ChevronDown className="size-3.5" />
         </button>
-      </div>
-      <div className="flex items-center gap-1.5">
+      </HStack>
+      <HStack className="gap-1.5">
         <Button
           size="sm"
           variant={mode === 'mock' ? 'default' : 'secondary'}
@@ -48,12 +50,12 @@ export function DevDataToolbarExpanded({
             Restaurar Semilla
           </Button>
         )}
-      </div>
+      </HStack>
       {statusMessage && (
         <Badge variant="secondary" className="justify-center text-[11px]">
           {statusMessage}
         </Badge>
       )}
-    </div>
+    </VStack>
   )
 }

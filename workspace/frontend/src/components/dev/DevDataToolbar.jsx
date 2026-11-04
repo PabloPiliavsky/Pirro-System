@@ -2,6 +2,7 @@
 // Anchored to REQ-FND-003, REQ-FND-010, REQ-FND-014
 import { useState } from 'react'
 import { getActiveDataMode, getProvider, setDevDataMode } from '@/services/dataProvider'
+import { VStack } from '@/components/ui/VStack'
 import { DevDataToolbarCollapsed } from './DevDataToolbarCollapsed'
 import { DevDataToolbarExpanded } from './DevDataToolbarExpanded'
 
@@ -26,9 +27,11 @@ export function DevDataToolbar({ onDataChanged }) {
   }
 
   return (
-    <aside
+    <VStack
+      as="aside"
+      align="end"
       aria-label="Selector de entorno de desarrollo"
-      className="fixed bottom-3 right-3 z-50 flex flex-col items-end gap-1.5 font-mono text-xs"
+      className="fixed bottom-3 right-3 z-50 gap-1.5 font-mono text-xs"
     >
       {collapsed ? (
         <DevDataToolbarCollapsed mode={mode} onExpand={() => setCollapsed(false)} />
@@ -41,6 +44,6 @@ export function DevDataToolbar({ onDataChanged }) {
           onResetSeed={handleResetSeed}
         />
       )}
-    </aside>
+    </VStack>
   )
 }

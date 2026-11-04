@@ -3,6 +3,8 @@ import { HardDrive } from 'lucide-react'
 import { useRoutineLocalStorage } from '@/features/training/hooks/useRoutineLocalStorage'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { HStack } from '@/components/ui/HStack'
+import { VStack } from '@/components/ui/VStack'
 import { BatchSyncDraftInfo } from './BatchSyncDraftInfo'
 import { BatchSyncAlerts } from './BatchSyncAlerts'
 import { BatchSyncActions } from './BatchSyncActions'
@@ -30,22 +32,24 @@ export function BatchSyncSandbox({ onBatchSaved }) {
   return (
     <Card className="border-primary/30">
       <CardHeader>
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <CardTitle className="flex items-center gap-2">
+        <HStack wrap justify="between" className="gap-2">
+          <HStack className="gap-2">
             <HardDrive className="size-4 text-primary" />
-            <span>Laboratorio Offline-First & Guardado Batch</span>
-          </CardTitle>
+            <CardTitle>Laboratorio Offline-First & Guardado Batch</CardTitle>
+          </HStack>
           <Badge variant="accent" className="font-mono">
             0 llamadas a BD por serie
           </Badge>
-        </div>
+        </HStack>
         <CardDescription>
           Simulador interactivo del entrenamiento de Martín Gómez (Día 1: Press Plano). Al hacer clic abajo se agrega una serie al borrador local (sin tocar la BD). Al tocar &ldquo;Guardar Entrenamiento&rdquo;, se envía el bloque completo en 1 sola transacción.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3">
-        <BatchSyncDraftInfo draft={draft} />
-        <BatchSyncAlerts lastResult={lastResult} />
+      <CardContent>
+        <VStack className="gap-3">
+          <BatchSyncDraftInfo draft={draft} />
+          <BatchSyncAlerts lastResult={lastResult} />
+        </VStack>
       </CardContent>
       <CardFooter>
         <BatchSyncActions

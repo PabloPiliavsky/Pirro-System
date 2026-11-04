@@ -1,6 +1,7 @@
 // Anchored to REQ-FND-003, REQ-FND-011, REQ-FND-014
 import { Layers } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { VStack } from '@/components/ui/VStack'
 import { RelationalEntityCard } from './RelationalEntityCard'
 import { BatchSyncSandbox } from './BatchSyncSandbox'
 import { CatalogSummaryPanels } from './CatalogSummaryPanels'
@@ -18,11 +19,11 @@ export function FoundationTabsSection({ summary, onReload }) {
 
       <TabsContent value="cartera">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <div className="flex flex-col gap-4 lg:col-span-6">
+          <VStack className="gap-4 lg:col-span-6">
             {summary?.alumnos?.map((alumno) => (
               <RelationalEntityCard key={alumno.id_persona} alumno={alumno} />
             ))}
-          </div>
+          </VStack>
           <div className="lg:col-span-6">
             <BatchSyncSandbox onBatchSaved={onReload} />
           </div>

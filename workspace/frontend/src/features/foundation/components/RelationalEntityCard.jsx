@@ -2,6 +2,8 @@
 import { UserCheck, Building2, CalendarDays } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { HStack } from '@/components/ui/HStack'
+import { VStack } from '@/components/ui/VStack'
 
 export function RelationalEntityCard({ alumno }) {
   const { persona, usuario, gimnasio } = alumno
@@ -9,8 +11,8 @@ export function RelationalEntityCard({ alumno }) {
   return (
     <Card className="transition-colors hover:border-primary/50">
       <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex flex-col gap-1">
+        <HStack justify="between" align="start" className="gap-2">
+          <VStack className="gap-1">
             <CardTitle className="flex items-center gap-2">
               <UserCheck className="size-4 text-primary" />
               <span>
@@ -20,29 +22,31 @@ export function RelationalEntityCard({ alumno }) {
             <CardDescription className="font-mono">
               @{usuario?.nombre_usuario} · {usuario?.email}
             </CardDescription>
-          </div>
+          </VStack>
           <Badge variant="accent">{persona?.rol?.toUpperCase()}</Badge>
-        </div>
+        </HStack>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3 text-xs">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="secondary">
-            <Building2 className="size-3 text-primary" />
-            {gimnasio?.nombre || 'Sin sede'}
-          </Badge>
-          <Badge variant="secondary">
-            <CalendarDays className="size-3 text-primary" />
-            {alumno.cantidad_dias_rutina} días/sem
-          </Badge>
-          <Badge variant="outline" className="font-mono">
-            {alumno.altura_cm} cm · {alumno.peso_kg} kg
-          </Badge>
-        </div>
-        <p className="text-muted-foreground">{alumno.salud_enfermedades}</p>
-        <div className="rounded-md border border-border bg-secondary/40 px-2.5 py-1.5 font-mono text-[11px] text-muted-foreground">
-          Cadena 1:1:1 → usuario.id: {usuario?.id} → persona.id: {persona?.id} → perfil_alumno.id_persona:{' '}
-          {alumno.id_persona}
-        </div>
+      <CardContent className="p-5 pt-0">
+        <VStack className="gap-3 text-xs">
+          <HStack wrap className="gap-2">
+            <Badge variant="secondary">
+              <Building2 className="size-3 text-primary" />
+              {gimnasio?.nombre || 'Sin sede'}
+            </Badge>
+            <Badge variant="secondary">
+              <CalendarDays className="size-3 text-primary" />
+              {alumno.cantidad_dias_rutina} días/sem
+            </Badge>
+            <Badge variant="outline" className="font-mono">
+              {alumno.altura_cm} cm · {alumno.peso_kg} kg
+            </Badge>
+          </HStack>
+          <p className="text-muted-foreground">{alumno.salud_enfermedades}</p>
+          <div className="rounded-md border border-border bg-secondary/40 px-2.5 py-1.5 font-mono text-[11px] text-muted-foreground">
+            Cadena 1:1:1 → usuario.id: {usuario?.id} → persona.id: {persona?.id} → perfil_alumno.id_persona:{' '}
+            {alumno.id_persona}
+          </div>
+        </VStack>
       </CardContent>
     </Card>
   )
