@@ -4,6 +4,127 @@
 -- Espejo exacto de workspace/frontend/src/services/seed/mockSeedData.js
 -- =============================================================================
 
+-- 0. USUARIOS EN AUTH.USERS Y AUTH.IDENTITIES (Supabase Auth Local / Docker)
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+INSERT INTO auth.users (
+  instance_id,
+  id,
+  aud,
+  role,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  confirmation_token,
+  recovery_token,
+  email_change_token_new,
+  email_change,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  is_super_admin,
+  created_at,
+  updated_at
+)
+VALUES
+  (
+    '00000000-0000-0000-0000-000000000000',
+    '11111111-1111-4111-8111-111111111111',
+    'authenticated',
+    'authenticated',
+    'leandro@pirrosystem.com',
+    crypt('password123', gen_salt('bf')),
+    now(),
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}',
+    '{"nombre":"Leandro","apellido":"Pirro"}',
+    false,
+    now(),
+    now()
+  ),
+  (
+    '00000000-0000-0000-0000-000000000000',
+    '22222222-2222-4222-8222-222222222222',
+    'authenticated',
+    'authenticated',
+    'martin.gomez@alumno.com',
+    crypt('password123', gen_salt('bf')),
+    now(),
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}',
+    '{"nombre":"Martín","apellido":"Gómez"}',
+    false,
+    now(),
+    now()
+  ),
+  (
+    '00000000-0000-0000-0000-000000000000',
+    '33333333-3333-4333-8333-333333333333',
+    'authenticated',
+    'authenticated',
+    'lucia.fernandez@alumno.com',
+    crypt('password123', gen_salt('bf')),
+    now(),
+    '',
+    '',
+    '',
+    '',
+    '{"provider":"email","providers":["email"]}',
+    '{"nombre":"Lucía","apellido":"Fernández"}',
+    false,
+    now(),
+    now()
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO auth.identities (
+  id,
+  user_id,
+  identity_data,
+  provider,
+  provider_id,
+  last_sign_in_at,
+  created_at,
+  updated_at
+)
+VALUES
+  (
+    '11111111-1111-4111-8111-111111111111',
+    '11111111-1111-4111-8111-111111111111',
+    json_build_object('sub', '11111111-1111-4111-8111-111111111111', 'email', 'leandro@pirrosystem.com')::jsonb,
+    'email',
+    '11111111-1111-4111-8111-111111111111',
+    now(),
+    now(),
+    now()
+  ),
+  (
+    '22222222-2222-4222-8222-222222222222',
+    '22222222-2222-4222-8222-222222222222',
+    json_build_object('sub', '22222222-2222-4222-8222-222222222222', 'email', 'martin.gomez@alumno.com')::jsonb,
+    'email',
+    '22222222-2222-4222-8222-222222222222',
+    now(),
+    now(),
+    now()
+  ),
+  (
+    '33333333-3333-4333-8333-333333333333',
+    '33333333-3333-4333-8333-333333333333',
+    json_build_object('sub', '33333333-3333-4333-8333-333333333333', 'email', 'lucia.fernandez@alumno.com')::jsonb,
+    'email',
+    '33333333-3333-4333-8333-333333333333',
+    now(),
+    now(),
+    now()
+  )
+ON CONFLICT (id) DO NOTHING;
+
 -- 1. USUARIOS (1 Profesor + 2 Alumnos)
 INSERT INTO public.usuarios (id, auth_user_id, nombre_usuario, email, password_hash, estado, ultimo_acceso)
 VALUES
