@@ -1,3 +1,4 @@
+// TODO: [MOCK-CLEANUP] Eliminar este archivo completamente cuando la fase de desarrollo mock finalice y se utilice exclusivamente Supabase Auth.
 // Anchored to REQ-AUTH-001, REQ-AUTH-002, REQ-AUTH-003, REQ-AUTH-004, REQ-AUTH-005
 import { createInitialMockDb } from '../seed/mockSeedData'
 import { MOCK_DB_STORAGE_KEY } from './mockAdapter'

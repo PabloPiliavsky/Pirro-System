@@ -1,3 +1,4 @@
+// TODO: [MOCK-CLEANUP] Eliminar este archivo completamente cuando la fase de desarrollo/test mock finalice y se utilice exclusivamente Supabase.
 // Anchored to REQ-FND-008, REQ-FND-011, REQ-FND-012, REQ-GYM-001, REQ-EJE-001
 import { createInitialMockDb } from '../seed/mockSeedData'
 import { validateTrainingBatchPayload } from '../validators/trainingBatchValidator'

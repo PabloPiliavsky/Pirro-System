@@ -1,3 +1,4 @@
+// TODO: [MOCK-CLEANUP] Eliminar este archivo completamente cuando la fase de desarrollo mock finalice y se utilice exclusivamente Supabase Auth.
 // Anchored to REQ-AUTH-001, REQ-AUTH-002, REQ-AUTH-005
 
 export function findUserByIdentifier(usuarios, identifier) {

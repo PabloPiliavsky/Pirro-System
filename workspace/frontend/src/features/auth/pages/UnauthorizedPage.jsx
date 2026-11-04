@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { ShieldAlert, ArrowLeft } from 'lucide-react'
+import { VStack } from '@/components/ui/VStack'
 
 export function UnauthorizedPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+    <VStack justify="center" align="center" className="min-h-screen p-4 bg-background">
       <Card className="max-w-md w-full border-destructive/40 bg-card text-center">
         <CardHeader className="pb-3">
           <div className="mx-auto size-12 rounded-full bg-destructive/10 text-destructive flex items-center justify-center mb-2">
@@ -26,7 +27,7 @@ export function UnauthorizedPage() {
           </Link>
         </CardContent>
       </Card>
-    </div>
+    </VStack>
   )
 }
 

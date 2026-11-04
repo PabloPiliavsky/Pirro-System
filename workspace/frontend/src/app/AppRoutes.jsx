@@ -12,29 +12,39 @@ import { GimnasiosPage } from '@/features/gimnasios/components/GimnasiosPage'
 import { EjerciciosPage } from '@/features/ejercicios/components/EjerciciosPage'
 import { FeaturePlaceholder } from './layouts/FeaturePlaceholder'
 import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
+import { VStack } from '@/components/ui/VStack'
+
+const PROFESOR_PLACEHOLDER_MODULES = [
+  { path: 'alumnos', title: 'Gestión de Alumnos', desc: 'Altas, fichas físicas y seguimiento', spec: 'specs/004-gestion-alumnos' },
+  { path: 'rutinas', title: 'Constructor de Rutinas', desc: 'Planificación semanal por día', spec: 'specs/005-constructor-rutinas' },
+  { path: 'progreso', title: 'Progreso y Reportes Excel', desc: 'Evolución de cargas y exportación .xlsx', spec: 'specs/007-progreso-y-exportacion-excel' },
+]
+
+const ALUMNO_MODULES = [
+  { path: 'rutinas', title: 'Rutinas Asignadas', desc: 'Tus días y ejercicios de la semana', spec: 'specs/006-planilla-entrenamiento-alumno' },
+  { path: 'historial', title: 'Historial de Entrenamientos', desc: 'Consultá tus pesos y repeticiones previas', spec: 'specs/006-planilla-entrenamiento-alumno' },
+  { path: 'perfil', title: 'Mi Ficha', desc: 'Datos personales, gimnasio y profesor', spec: 'specs/004-gestion-alumnos' },
+]
 
 export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
   const { role, isAuthenticated, isLoading } = useAuth()
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
-        <div className="flex flex-col items-center gap-3">
+      <VStack justify="center" align="center" className="min-h-screen bg-background text-foreground">
+        <VStack align="center" className="gap-3">
           <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <span className="text-sm font-medium text-muted-foreground tracking-wide">
             Cargando aplicación...
           </span>
-        </div>
-      </div>
+        </VStack>
+      </VStack>
     )
   }
 
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={<LoginPage theme={theme} onToggleTheme={onToggleTheme} />}
-      />
+      <Route path="/login" element={<LoginPage theme={theme} onToggleTheme={onToggleTheme} />} />
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
       {/* Rutas Protegidas del Profesor */}
@@ -49,49 +59,22 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         <Route index element={<ProfesorHome />} />
         <Route path="gimnasios" element={<GimnasiosPage />} />
         <Route path="ejercicios" element={<EjerciciosPage />} />
-        <Route
-          path="alumnos"
-          element={
-            <FeaturePlaceholder
-              title="Gestión de Alumnos"
-              description="Altas, fichas físicas y seguimiento"
-              specNumber="specs/004-gestion-alumnos"
-            />
-          }
-        />
-        <Route
-          path="rutinas"
-          element={
-            <FeaturePlaceholder
-              title="Constructor de Rutinas"
-              description="Planificación semanal por día"
-              specNumber="specs/005-constructor-rutinas"
-            />
-          }
-        />
-        <Route
-          path="progreso"
-          element={
-            <FeaturePlaceholder
-              title="Progreso y Reportes Excel"
-              description="Evolución de cargas y exportación .xlsx"
-              specNumber="specs/007-progreso-y-exportacion-excel"
-            />
-          }
-        />
+        {PROFESOR_PLACEHOLDER_MODULES.map((m) => (
+          <Route
+            key={m.path}
+            path={m.path}
+            element={<FeaturePlaceholder title={m.title} description={m.desc} specNumber={m.spec} />}
+          />
+        ))}
         <Route
           path="laboratorio"
           element={
-            <FoundationDashboard
-              theme={theme}
-              onToggleTheme={onToggleTheme}
-              refreshToken={refreshToken}
-            />
+            <FoundationDashboard theme={theme} onToggleTheme={onToggleTheme} refreshToken={refreshToken} />
           }
         />
       </Route>
 
-      {/* Rutas Protegidas del Alumno (100% Mobile-First) */}
+      {/* Rutas Protegidas del Alumno */}
       <Route
         path="/alumno"
         element={
@@ -101,36 +84,13 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         }
       >
         <Route index element={<AlumnoHome />} />
-        <Route
-          path="rutinas"
-          element={
-            <FeaturePlaceholder
-              title="Rutinas Asignadas"
-              description="Tus días y ejercicios de la semana"
-              specNumber="specs/006-planilla-entrenamiento-alumno"
-            />
-          }
-        />
-        <Route
-          path="historial"
-          element={
-            <FeaturePlaceholder
-              title="Historial de Entrenamientos"
-              description="Consultá tus pesos y repeticiones previas"
-              specNumber="specs/006-planilla-entrenamiento-alumno"
-            />
-          }
-        />
-        <Route
-          path="perfil"
-          element={
-            <FeaturePlaceholder
-              title="Mi Ficha"
-              description="Datos personales, gimnasio y profesor"
-              specNumber="specs/004-gestion-alumnos"
-            />
-          }
-        />
+        {ALUMNO_MODULES.map((m) => (
+          <Route
+            key={m.path}
+            path={m.path}
+            element={<FeaturePlaceholder title={m.title} description={m.desc} specNumber={m.spec} />}
+          />
+        ))}
       </Route>
 
       {/* Redirección por defecto */}
@@ -138,13 +98,7 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         path="*"
         element={
           <Navigate
-            to={
-              !isAuthenticated
-                ? '/login'
-                : role === 'profesor'
-                  ? '/profesor'
-                  : '/alumno'
-            }
+            to={!isAuthenticated ? '/login' : role === 'profesor' ? '/profesor' : '/alumno'}
             replace
           />
         }

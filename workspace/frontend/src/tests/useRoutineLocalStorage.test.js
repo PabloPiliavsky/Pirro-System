@@ -1,10 +1,8 @@
 // Anchored to REQ-FND-013, REQ-FND-015
 import { act, renderHook } from '@testing-library/react'
 import { describe, expect, test, vi } from 'vitest'
-import {
-  getDraftStorageKey,
-  useRoutineLocalStorage,
-} from '@/features/training/hooks/useRoutineLocalStorage'
+import { getDraftStorageKey } from '@/features/training/utils/getDraftStorageKey'
+import { useRoutineLocalStorage } from '@/features/training/hooks/useRoutineLocalStorage'
 import { mockAdapter } from '@/services/adapters/mockAdapter'
 
 describe('Hook useRoutineLocalStorage — Sincronización Offline-First y Guardado Batch', () => {

@@ -1,8 +1,8 @@
 // Anchored to REQ-AUTH-006
-import { createContext, useContext, useEffect, useState, useMemo } from 'react'
+import { createContext, useEffect, useState, useMemo } from 'react'
 import { authService } from '@/services/authService'
 
-const AuthContext = createContext(null)
+export const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let isMounted = true
 
-    async function initSession() {
+    const initSession = async () => {
       try {
         const current = await authService.getCurrentSession()
         if (isMounted && current) {
@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  async function login(credentials) {
+  const login = async (credentials) => {
     const res = await authService.login(credentials)
     if (res.ok) {
       setSession(res.session)
@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
     return res
   }
 
-  async function logout() {
+  const logout = async () => {
     await authService.logout()
     setSession(null)
     setUser(null)
@@ -76,10 +76,4 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth debe utilizarse dentro de un AuthProvider')
-  }
-  return context
-}
+export { useAuth } from '../hooks/useAuth'

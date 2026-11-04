@@ -21,3 +21,10 @@ Este archivo contiene el contexto a largo plazo, decisiones de arquitectura y ap
 ## APRENDIZAJES TÉCNICOS REUTILIZABLES
 - **[Frontend / Tailwind v4]**: Al inicializar Vite con Tailwind CSS v4, instalar `tailwindcss` y `@tailwindcss/vite`, configurar el plugin en `vite.config.js` y colocar `@import "tailwindcss";` en `index.css`.
 - **[shadcn/ui / Vite JavaScript]**: En proyectos React Vite con JavaScript (`.js`/`.jsx`), configurar `jsconfig.json` con `baseUrl` y `paths: { "@/*": ["./src/*"] }` antes de usar componentes de `shadcn`.
+- **[2026-11-04] Modularidad Frontend, Primitivas de Layout y Evaluación de HOCs**:
+  - **Regla Estricta de 1 Función por Archivo**: En `src/features/` y `src/components/`, cada archivo debe tener como máximo 1 función declarada. Todo subcomponente (alertas, inputs, cabeceras, botones) y utilidad se extrae a su propio archivo (<50-80 líneas).
+  - **No usar `useCallback` innecesarios**: Mantener funciones estándar en hooks/componentes donde la re-creación no causa impacto medible.
+  - **Primitivas de Layout `VStack` y `HStack`**: Usar siempre en lugar de repetir clases Tailwind `flex flex-col` / `flex flex-row`. Soportan `as`, `align`, `justify`, `gap`, `wrap` y `className` con `cn()`.
+  - **Nota de Arquitectura / Pendiente de Revisión: HOCs vs Contenedores Declarativos**:
+    - Se evaluó el uso de HOCs (`withLoading`, `withError`). Actualmente se resuelve con **Custom Hooks** (`useLoginFlow`, `useRoutineLocalStorage`) y **componentes de estado declarativos** (`LoginErrorAlert`, `LoginSubmitButton`, `ProtectedRoute`) para respetar la regla de 1 función por archivo y las buenas prácticas de React 19.
+    - *Punto a revisar a futuro*: Si surgen componentes sumamente cargados o repetitivos (como el constructor de rutinas en la Spec 005 o planillas de entrenamiento en la Spec 006), retomar esta discusión para evaluar si un contenedor declarativo unificado (ej: `<AsyncStateView isLoading={...} error={...}>`) o un patrón HOC específico ayuda a aligerar dichos componentes.

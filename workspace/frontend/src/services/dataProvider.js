@@ -1,5 +1,6 @@
 // Anchored to REQ-FND-010, REQ-FND-011
-import { mockAdapter } from './adapters/mockAdapter'
+// TODO: [MOCK-CLEANUP] Retirar soporte dual mock/supabase y eliminar referencias a mockAdapter una vez migrado 100% a Supabase.
+import { mockAdapter } from './adapters/mockAdapter' // TODO: [MOCK-CLEANUP] Eliminar import de mockAdapter
 import { supabaseAdapter } from './adapters/supabaseAdapter'
 
 export const DEV_DATA_MODE_STORAGE_KEY = 'pirro_dev_data_mode'
@@ -12,6 +13,7 @@ export function getActiveDataMode() {
     }
   }
   const envMode = import.meta.env.VITE_DATA_MODE
+  // TODO: [MOCK-CLEANUP] Eliminar fallback a 'mock' cuando se use exclusivamente Supabase
   return envMode === 'supabase' ? 'supabase' : 'mock'
 }
 
@@ -26,5 +28,6 @@ export function setDevDataMode(mode) {
 }
 
 export function getProvider() {
+  // TODO: [MOCK-CLEANUP] Retirar fallback a mockAdapter cuando Supabase sea el único proveedor activo
   return getActiveDataMode() === 'supabase' ? supabaseAdapter : mockAdapter
 }
