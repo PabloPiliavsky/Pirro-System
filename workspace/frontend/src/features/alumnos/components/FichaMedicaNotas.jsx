@@ -21,7 +21,7 @@ export function FichaMedicaNotas({ alumno }) {
         <div>
           <span className="text-muted-foreground">Frecuencia Semanal: </span>
           <span className="font-semibold text-foreground">
-            {alumno.cantidad_dias_rutina || 3} días
+            {alumno.cantidad_dias_rutina} días
           </span>
         </div>
         <div>

@@ -16,7 +16,7 @@ export function AlumnoCardHeader({ alumno }) {
           {alumno.nombre_completo}
         </h3>
         <span className="text-xs text-muted-foreground truncate font-mono">
-          @{alumno.nombre_usuario || 'sin_usuario'}
+          @{alumno.nombre_usuario}
         </span>
       </VStack>
     </HStack>

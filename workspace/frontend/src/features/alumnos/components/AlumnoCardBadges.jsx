@@ -16,7 +16,7 @@ export function AlumnoCardBadges({ alumno }) {
         📍 {alumno.gimnasio?.nombre || 'Sin sede'}
       </span>
       <span className="px-2 py-0.5 text-xs font-medium rounded-md bg-secondary text-secondary-foreground border border-border/40">
-        ⚡ {alumno.cantidad_dias_rutina || 3} días/sem
+        ⚡ {alumno.cantidad_dias_rutina} días/sem
       </span>
       <span className={`px-2 py-0.5 text-xs font-semibold rounded-md border ${estadoBadge.style}`}>
         {estadoBadge.label}

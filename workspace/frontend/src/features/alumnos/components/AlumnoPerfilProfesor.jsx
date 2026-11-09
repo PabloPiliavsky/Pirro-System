@@ -14,10 +14,10 @@ export function AlumnoPerfilProfesor({ profesor, alumnoNombre }) {
       <HStack justify="between" align="center" className="gap-3 flex-wrap">
         <div>
           <h3 className="text-base font-bold text-foreground">
-            {profesor?.nombre_completo || 'Leandro Pirro'}
+            {profesor?.nombre_completo}
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
-            ✉️ {profesor?.email || 'leandro@pirrosystem.com'}
+            ✉️ {profesor?.email}
           </p>
         </div>
 

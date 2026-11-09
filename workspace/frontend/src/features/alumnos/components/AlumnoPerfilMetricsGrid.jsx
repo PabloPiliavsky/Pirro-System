@@ -6,7 +6,7 @@ export function AlumnoPerfilMetricsGrid({ perfil, tieneImc, imcInfo }) {
   const pesoDisplay = perfil?.peso_kg ? `${perfil.peso_kg} kg` : '-'
   const imcDisplay = imcInfo?.valor || '-'
   const imcColor = imcInfo?.color || 'text-foreground'
-  const frecuenciaDisplay = `${perfil?.cantidad_dias_rutina || 3} días/sem`
+  const frecuenciaDisplay = `${perfil.cantidad_dias_rutina} días/sem`
 
   return (
     <div className={`grid ${gridLayout} gap-3 text-center`}>

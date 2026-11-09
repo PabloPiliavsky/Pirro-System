@@ -3,10 +3,7 @@ import { HStack } from '@/components/ui/HStack'
 import { VStack } from '@/components/ui/VStack'
 
 export function AlumnoPerfilHeader({ perfil }) {
-  const nombre = perfil?.nombre || perfil?.persona?.nombre || 'Alumno'
-  const apellido = perfil?.apellido || perfil?.persona?.apellido || ''
-  const usuario = perfil?.nombre_usuario || perfil?.usuario?.nombre_usuario || 'usuario'
-  const email = perfil?.email || perfil?.usuario?.email || 'Sin correo'
+  const { nombre, apellido, nombre_usuario, email } = perfil
   const iniciales = `${nombre.charAt(0)}${apellido.charAt(0)}`
 
   return (
@@ -20,7 +17,7 @@ export function AlumnoPerfilHeader({ perfil }) {
             {nombre} {apellido}
           </h1>
           <span className="text-xs text-muted-foreground font-mono">
-            @{usuario}
+            @{nombre_usuario}
           </span>
           <span className="text-xs text-muted-foreground truncate mt-0.5">
             ✉️ {email}

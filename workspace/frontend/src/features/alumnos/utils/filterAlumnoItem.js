@@ -11,9 +11,9 @@ export function filterAlumnoItem(alumno, search, gymId, status) {
 
   if (!search) return true
   const term = search.toLowerCase()
-  const nombre = (alumno.nombre_completo || '').toLowerCase()
-  const usuario = (alumno.nombre_usuario || '').toLowerCase()
-  const email = (alumno.email || '').toLowerCase()
+  const nombre = alumno.nombre_completo.toLowerCase()
+  const usuario = alumno.nombre_usuario.toLowerCase()
+  const email = alumno.email.toLowerCase()
 
   return nombre.includes(term) || usuario.includes(term) || email.includes(term)
 }

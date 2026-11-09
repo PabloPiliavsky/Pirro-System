@@ -5,21 +5,21 @@
 export function buildAlumnosView(db) {
   return db.perfil_alumno.map((perfil) => {
     const persona = db.personas.find((p) => p.id === perfil.id_persona)
-    const usuario = db.usuarios.find((u) => u.id === persona?.id_usuario)
+    const usuario = db.usuarios.find((u) => u.id === persona.id_usuario)
     const gimnasio = db.gimnasios.find((g) => g.id === perfil.id_gimnasio) || null
     return {
       ...perfil,
       id_persona: perfil.id_persona,
-      id_usuario: usuario?.id,
-      nombre: persona?.nombre || '',
-      apellido: persona?.apellido || '',
-      nombre_completo: `${persona?.nombre || ''} ${persona?.apellido || ''}`.trim(),
-      nombre_usuario: usuario?.nombre_usuario || '',
-      email: usuario?.email || '',
-      telefono: persona?.telefono || null,
-      fecha_nacimiento: persona?.fecha_nacimiento || null,
-      url_foto: persona?.url_foto || null,
-      estado: persona?.estado ?? true,
+      id_usuario: usuario.id,
+      nombre: persona.nombre,
+      apellido: persona.apellido,
+      nombre_completo: `${persona.nombre} ${persona.apellido}`.trim(),
+      nombre_usuario: usuario.nombre_usuario,
+      email: usuario.email,
+      telefono: persona.telefono || null,
+      fecha_nacimiento: persona.fecha_nacimiento || null,
+      url_foto: persona.url_foto || null,
+      estado: persona.estado,
       mostrar_imc: Boolean(perfil.mostrar_imc),
       persona,
       usuario,
@@ -48,8 +48,8 @@ export function buildMiPerfilAlumnoView(db, personaId = 2) {
           nombre: profesorPersona.nombre,
           apellido: profesorPersona.apellido,
           nombre_completo: `${profesorPersona.nombre} ${profesorPersona.apellido}`.trim(),
-          email: profesorUsuario?.email || 'leandro@pirrosystem.com',
-          telefono: profesorPersona.telefono || '+54 9 11 5555-0101',
+          email: profesorUsuario.email,
+          telefono: profesorPersona.telefono,
         }
       : null,
   }
