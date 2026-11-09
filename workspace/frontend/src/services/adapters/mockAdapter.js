@@ -5,6 +5,7 @@ import { validateTrainingBatchPayload } from '../validators/trainingBatchValidat
 import { validateGimnasioPayload } from '../validators/gimnasiosValidator'
 import { validateEjercicioPayload } from '../validators/ejerciciosValidator'
 import { validateAlumnoPayload } from '../validators/alumnosValidator'
+import { validateRutinaPayload } from '../validators/rutinasValidator'
 import {
   buildAlumnosView,
   buildAlumnoByIdView,
@@ -23,6 +24,8 @@ import {
   createAlumnoMock,
   updateAlumnoMock,
   setAlumnoEstadoMock,
+  saveRutinaCompletaMock,
+  deleteRutinaMock,
 } from './mockAdapterMutations'
 
 export const MOCK_DB_STORAGE_KEY = 'pirro_mock_db_v1'
@@ -178,8 +181,27 @@ export const mockAdapter = {
     return { ok: success }
   },
 
+  // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
   async getRutinasByAlumno(idAlumno) {
     return buildRutinasByAlumno(loadMockDb(), idAlumno)
+  },
+
+  // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
+  async guardarRutinaCompleta(payload) {
+    const validation = validateRutinaPayload(payload)
+    if (!validation.ok) return validation
+    const db = loadMockDb()
+    const data = saveRutinaCompletaMock(db, payload)
+    saveMockDb(db)
+    return { ok: true, data }
+  },
+
+  // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
+  async eliminarRutina(idRutina) {
+    const db = loadMockDb()
+    const success = deleteRutinaMock(db, idRutina)
+    saveMockDb(db)
+    return { ok: success }
   },
 
   async guardarEntrenamientoBatch(payload) {

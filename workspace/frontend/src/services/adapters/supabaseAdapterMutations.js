@@ -193,3 +193,77 @@ export async function setAlumnoEstadoSupabase(supabase, idPersona, nuevoEstado) 
   }
   return true
 }
+
+export async function saveRutinaCompletaSupabase(supabase, payload) {
+  const idAlumno = Number(payload.id_alumno)
+  const numeroDia = Number(payload.numero_dia)
+  const nombreRutina = payload.nombre_rutina.trim()
+  const ejerciciosInput = Array.isArray(payload.ejercicios) ? payload.ejercicios : []
+
+  let rutinaId = null
+  const { data: existing } = await supabase
+    .from('rutinas')
+    .select('id')
+    .eq('id_alumno', idAlumno)
+    .eq('numero_dia', numeroDia)
+    .maybeSingle()
+
+  if (existing) {
+    rutinaId = existing.id
+    const { error } = await supabase
+      .from('rutinas')
+      .update({ nombre_rutina: nombreRutina, activa: true })
+      .eq('id', rutinaId)
+    if (error) throw error
+  } else {
+    const { data: prof } = await supabase
+      .from('personas')
+      .select('id')
+      .eq('rol', 'profesor')
+      .limit(1)
+      .single()
+    const { data: nueva, error } = await supabase
+      .from('rutinas')
+      .insert({
+        id_alumno: idAlumno,
+        id_profesor: prof?.id || 1,
+        numero_dia: numeroDia,
+        nombre_rutina: nombreRutina,
+        activa: true,
+      })
+      .select()
+      .single()
+    if (error) throw error
+    rutinaId = nueva.id
+  }
+
+  const { error: delErr } = await supabase
+    .from('rutina_ejercicios')
+    .delete()
+    .eq('id_rutina', rutinaId)
+  if (delErr) throw delErr
+
+  if (ejerciciosInput.length > 0) {
+    const rows = ejerciciosInput.map((ej, index) => ({
+      id_rutina: rutinaId,
+      id_ejercicio: Number(ej.id_ejercicio),
+      orden: index + 1,
+      series_objetivo: Number(ej.series_objetivo || 3),
+      repeticiones_objetivo: String(ej.repeticiones_objetivo || '10-12').trim(),
+      notas_profesor: ej.notas_profesor ? String(ej.notas_profesor).trim() : null,
+    }))
+    const { error: insErr } = await supabase.from('rutina_ejercicios').insert(rows)
+    if (insErr) throw insErr
+  }
+
+  return { id: rutinaId, id_alumno: idAlumno, numero_dia: numeroDia }
+}
+
+export async function deleteRutinaSupabase(supabase, idRutina) {
+  const { error } = await supabase
+    .from('rutinas')
+    .update({ activa: false })
+    .eq('id', Number(idRutina))
+  if (error) throw error
+  return true
+}

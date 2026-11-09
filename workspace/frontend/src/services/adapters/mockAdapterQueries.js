@@ -67,6 +67,7 @@ export function buildGimnasiosView(db) {
   })
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function buildRutinasByAlumno(db, idAlumno) {
   return db.rutinas
     .filter((r) => r.id_alumno === Number(idAlumno) && r.activa)
@@ -74,10 +75,20 @@ export function buildRutinasByAlumno(db, idAlumno) {
       const ejercicios = db.rutina_ejercicios
         .filter((re) => re.id_rutina === rutina.id)
         .sort((a, b) => a.orden - b.orden)
-        .map((re) => ({
-          ...re,
-          ejercicio: db.ejercicios.find((ej) => ej.id === re.id_ejercicio) || null,
-        }))
+        .map((re) => {
+          const ej = db.ejercicios.find((item) => item.id === re.id_ejercicio)
+          return {
+            ...re,
+            ejercicio: ej
+              ? {
+                  ...ej,
+                  equipamiento_requerido: ej.id_equipamiento_requerido
+                    ? db.equipamiento.find((eq) => eq.id === ej.id_equipamiento_requerido) || null
+                    : null,
+                }
+              : null,
+          }
+        })
       return { ...rutina, ejercicios }
     })
 }

@@ -12,12 +12,12 @@ import { GimnasiosPage } from '@/features/gimnasios/components/GimnasiosPage'
 import { EjerciciosPage } from '@/features/ejercicios/components/EjerciciosPage'
 import { AlumnosPage } from '@/features/alumnos/components/AlumnosPage'
 import { AlumnoPerfilPage } from '@/features/alumnos/components/AlumnoPerfilPage'
+import { ConstructorRutinasPage } from '@/features/rutinas/components/ConstructorRutinasPage'
 import { FeaturePlaceholder } from './layouts/FeaturePlaceholder'
 import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
 import { VStack } from '@/components/ui/VStack'
 
 const PROFESOR_PLACEHOLDER_MODULES = [
-  { path: 'rutinas', title: 'Constructor de Rutinas', desc: 'Planificación semanal por día', spec: 'specs/005-constructor-rutinas' },
   { path: 'progreso', title: 'Progreso y Reportes Excel', desc: 'Evolución de cargas y exportación .xlsx', spec: 'specs/007-progreso-y-exportacion-excel' },
 ]
 
@@ -60,6 +60,7 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         <Route path="alumnos" element={<AlumnosPage />} />
         <Route path="gimnasios" element={<GimnasiosPage />} />
         <Route path="ejercicios" element={<EjerciciosPage />} />
+        <Route path="rutinas" element={<ConstructorRutinasPage />} />
         {PROFESOR_PLACEHOLDER_MODULES.map((m) => (
           <Route
             key={m.path}

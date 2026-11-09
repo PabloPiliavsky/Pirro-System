@@ -228,3 +228,58 @@ export function setAlumnoEstadoMock(db, idPersona, nuevoEstado) {
   if (usuario) usuario.estado = Boolean(nuevoEstado)
   return true
 }
+
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
+export function saveRutinaCompletaMock(db, payload) {
+  const idAlumno = Number(payload.id_alumno)
+  const numeroDia = Number(payload.numero_dia)
+  const nombreRutina = payload.nombre_rutina.trim()
+  const ejerciciosInput = Array.isArray(payload.ejercicios) ? payload.ejercicios : []
+
+  let rutina = db.rutinas.find(
+    (r) => r.id_alumno === idAlumno && r.numero_dia === numeroDia
+  )
+
+  if (rutina) {
+    rutina.nombre_rutina = nombreRutina
+    rutina.activa = true
+  } else {
+    const nextId = db.rutinas.reduce((max, r) => Math.max(max, r.id), 0) + 1
+    rutina = {
+      id: nextId,
+      id_alumno: idAlumno,
+      id_profesor: 1,
+      numero_dia: numeroDia,
+      nombre_rutina: nombreRutina,
+      activa: true,
+      created_at: new Date().toISOString(),
+    }
+    db.rutinas.push(rutina)
+  }
+
+  db.rutina_ejercicios = db.rutina_ejercicios.filter((re) => re.id_rutina !== rutina.id)
+
+  let nextReId = db.rutina_ejercicios.reduce((max, re) => Math.max(max, re.id), 0) + 1
+  const nuevosEjercicios = ejerciciosInput.map((ej, index) => ({
+    id: nextReId++,
+    id_rutina: rutina.id,
+    id_ejercicio: Number(ej.id_ejercicio),
+    orden: index + 1,
+    series_objetivo: Number(ej.series_objetivo || 3),
+    repeticiones_objetivo: String(ej.repeticiones_objetivo || '10-12').trim(),
+    notas_profesor: ej.notas_profesor ? String(ej.notas_profesor).trim() : null,
+  }))
+
+  db.rutina_ejercicios.push(...nuevosEjercicios)
+  return { id: rutina.id, id_alumno: idAlumno, numero_dia: numeroDia }
+}
+
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
+export function deleteRutinaMock(db, idRutina) {
+  const r = db.rutinas.find((item) => item.id === Number(idRutina))
+  if (r) {
+    r.activa = false
+    return true
+  }
+  return false
+}
