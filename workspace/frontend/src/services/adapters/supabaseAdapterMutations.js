@@ -92,3 +92,104 @@ export async function saveEquipamientoSupabase(supabase, payload) {
   if (error) throw error
   return data
 }
+
+export async function createAlumnoSupabase(supabase, payload) {
+  const { data, error } = await supabase.rpc('alta_alumno_profesor', { payload })
+  if (error) {
+    const err = new Error(error.message)
+    err.code = error.code || 'SUPABASE_RPC_ERROR'
+    throw err
+  }
+  if (!data?.ok) {
+    const err = new Error(data?.error?.message || 'Error al crear alumno')
+    err.code = data?.error?.code || 'SUPABASE_RPC_ERROR'
+    throw err
+  }
+  return data
+}
+
+export async function updateAlumnoSupabase(supabase, idPersona, payload) {
+  const id = Number(idPersona)
+  const { data: persona, error: pErr } = await supabase
+    .from('personas')
+    .select('id_usuario')
+    .eq('id', id)
+    .single()
+  if (pErr) throw pErr
+
+  const personaUpdates = {}
+  if (payload.nombre) personaUpdates.nombre = payload.nombre.trim()
+  if (payload.apellido) personaUpdates.apellido = payload.apellido.trim()
+  if (payload.telefono !== undefined) personaUpdates.telefono = payload.telefono?.trim() || null
+  if (payload.fecha_nacimiento !== undefined) personaUpdates.fecha_nacimiento = payload.fecha_nacimiento || null
+  if (payload.url_foto !== undefined) personaUpdates.url_foto = payload.url_foto || null
+
+  if (Object.keys(personaUpdates).length > 0) {
+    const { error } = await supabase.from('personas').update(personaUpdates).eq('id', id)
+    if (error) throw error
+  }
+
+  const perfilUpdates = {}
+  if (payload.id_gimnasio !== undefined) {
+    perfilUpdates.id_gimnasio = payload.id_gimnasio ? Number(payload.id_gimnasio) : null
+  }
+  if (payload.altura_cm !== undefined) {
+    perfilUpdates.altura_cm = payload.altura_cm ? Number(payload.altura_cm) : null
+  }
+  if (payload.peso_kg !== undefined) {
+    perfilUpdates.peso_kg = payload.peso_kg ? Number(payload.peso_kg) : null
+  }
+  if (payload.salud_enfermedades !== undefined) {
+    perfilUpdates.salud_enfermedades = payload.salud_enfermedades?.trim() || null
+  }
+  if (payload.fecha_ingreso) perfilUpdates.fecha_ingreso = payload.fecha_ingreso
+  if (payload.cantidad_dias_rutina !== undefined) {
+    perfilUpdates.cantidad_dias_rutina = Number(payload.cantidad_dias_rutina)
+  }
+  if (payload.mostrar_imc !== undefined) {
+    perfilUpdates.mostrar_imc = Boolean(payload.mostrar_imc)
+  }
+  if (payload.comentario !== undefined) {
+    perfilUpdates.comentario = payload.comentario?.trim() || null
+  }
+
+  if (Object.keys(perfilUpdates).length > 0) {
+    const { error } = await supabase.from('perfil_alumno').update(perfilUpdates).eq('id_persona', id)
+    if (error) throw error
+  }
+
+  if (payload.email && persona?.id_usuario) {
+    const { error } = await supabase
+      .from('usuarios')
+      .update({ email: payload.email.trim().toLowerCase() })
+      .eq('id', persona.id_usuario)
+    if (error) throw error
+  }
+
+  return { id_persona: id }
+}
+
+export async function setAlumnoEstadoSupabase(supabase, idPersona, nuevoEstado) {
+  const id = Number(idPersona)
+  const { data: persona, error: pErr } = await supabase
+    .from('personas')
+    .select('id_usuario')
+    .eq('id', id)
+    .single()
+  if (pErr) throw pErr
+
+  const { error: errP } = await supabase
+    .from('personas')
+    .update({ estado: Boolean(nuevoEstado) })
+    .eq('id', id)
+  if (errP) throw errP
+
+  if (persona?.id_usuario) {
+    const { error: errU } = await supabase
+      .from('usuarios')
+      .update({ estado: Boolean(nuevoEstado) })
+      .eq('id', persona.id_usuario)
+    if (errU) throw errU
+  }
+  return true
+}

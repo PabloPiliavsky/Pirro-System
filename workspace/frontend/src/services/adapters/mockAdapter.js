@@ -4,8 +4,11 @@ import { createInitialMockDb } from '../seed/mockSeedData'
 import { validateTrainingBatchPayload } from '../validators/trainingBatchValidator'
 import { validateGimnasioPayload } from '../validators/gimnasiosValidator'
 import { validateEjercicioPayload } from '../validators/ejerciciosValidator'
+import { validateAlumnoPayload } from '../validators/alumnosValidator'
 import {
   buildAlumnosView,
+  buildAlumnoByIdView,
+  buildMiPerfilAlumnoView,
   buildGimnasiosView,
   buildEjerciciosView,
   buildRutinasByAlumno,
@@ -17,6 +20,9 @@ import {
   saveEjercicioMock,
   deleteEjercicioMock,
   saveEquipamientoMock,
+  createAlumnoMock,
+  updateAlumnoMock,
+  setAlumnoEstadoMock,
 } from './mockAdapterMutations'
 
 export const MOCK_DB_STORAGE_KEY = 'pirro_mock_db_v1'
@@ -74,6 +80,47 @@ export const mockAdapter = {
 
   async getAlumnos() {
     return buildAlumnosView(loadMockDb())
+  },
+
+  async getAlumnoById(idPersona) {
+    return buildAlumnoByIdView(loadMockDb(), idPersona)
+  },
+
+  async crearAlumno(payload) {
+    const validation = validateAlumnoPayload(payload, false)
+    if (!validation.ok) return validation
+    try {
+      const db = loadMockDb()
+      const data = createAlumnoMock(db, payload)
+      saveMockDb(db)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: err.code || 'MOCK_ERROR', message: err.message } }
+    }
+  },
+
+  async actualizarAlumno(idPersona, payload) {
+    const validation = validateAlumnoPayload(payload, true)
+    if (!validation.ok) return validation
+    try {
+      const db = loadMockDb()
+      const data = updateAlumnoMock(db, idPersona, payload)
+      saveMockDb(db)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: err.code || 'MOCK_ERROR', message: err.message } }
+    }
+  },
+
+  async cambiarEstadoAlumno(idPersona, nuevoEstado) {
+    const db = loadMockDb()
+    const success = setAlumnoEstadoMock(db, idPersona, nuevoEstado)
+    saveMockDb(db)
+    return { ok: success, id_persona: Number(idPersona), estado: Boolean(nuevoEstado) }
+  },
+
+  async getMiPerfilAlumno(personaId = 2) {
+    return buildMiPerfilAlumnoView(loadMockDb(), personaId)
   },
 
   async getGimnasios() {

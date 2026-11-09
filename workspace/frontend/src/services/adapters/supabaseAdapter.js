@@ -3,27 +3,52 @@ import { getSupabaseClient } from '../supabaseClient'
 import { validateTrainingBatchPayload } from '../validators/trainingBatchValidator'
 import { validateGimnasioPayload } from '../validators/gimnasiosValidator'
 import { validateEjercicioPayload } from '../validators/ejerciciosValidator'
+import { validateAlumnoPayload } from '../validators/alumnosValidator'
 import {
   saveGimnasioSupabase,
   deleteGimnasioSupabase,
   saveEjercicioSupabase,
   deleteEjercicioSupabase,
   saveEquipamientoSupabase,
+  createAlumnoSupabase,
+  updateAlumnoSupabase,
+  setAlumnoEstadoSupabase,
 } from './supabaseAdapterMutations'
 
-async function fetchAlumnosRelacional(supabase) {
-  const { data, error } = await supabase
+async function fetchAlumnosRelacional(supabase, filterPersonaId = null) {
+  let query = supabase
     .from('perfil_alumno')
     .select(
       '*, persona:personas!perfil_alumno_id_persona_fkey(*, usuario:usuarios(*)), gimnasio:gimnasios(*)'
     )
     .order('id_persona', { ascending: true })
 
+  if (filterPersonaId) {
+    query = query.eq('id_persona', Number(filterPersonaId))
+  }
+
+  const { data, error } = await query
   if (error) throw error
-  return (data || []).map((row) => ({
+
+  const mapped = (data || []).map((row) => ({
     ...row,
+    id_persona: row.id_persona,
+    id_usuario: row.persona?.usuario?.id,
+    nombre: row.persona?.nombre || '',
+    apellido: row.persona?.apellido || '',
+    nombre_completo: `${row.persona?.nombre || ''} ${row.persona?.apellido || ''}`.trim(),
+    nombre_usuario: row.persona?.usuario?.nombre_usuario || '',
+    email: row.persona?.usuario?.email || '',
+    telefono: row.persona?.telefono || null,
+    fecha_nacimiento: row.persona?.fecha_nacimiento || null,
+    url_foto: row.persona?.url_foto || null,
+    estado: row.persona?.estado ?? true,
+    persona: row.persona,
     usuario: row.persona?.usuario || null,
+    gimnasio: row.gimnasio,
   }))
+
+  return filterPersonaId ? mapped[0] || null : mapped
 }
 
 async function fetchGimnasiosRelacional(supabase) {
@@ -97,6 +122,78 @@ export const supabaseAdapter = {
 
   async getAlumnos() {
     return fetchAlumnosRelacional(getSupabaseClient())
+  },
+
+  async getAlumnoById(idPersona) {
+    return fetchAlumnosRelacional(getSupabaseClient(), idPersona)
+  },
+
+  async crearAlumno(payload) {
+    const validation = validateAlumnoPayload(payload, false)
+    if (!validation.ok) return validation
+    try {
+      const data = await createAlumnoSupabase(getSupabaseClient(), payload)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: err.code || 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async actualizarAlumno(idPersona, payload) {
+    const validation = validateAlumnoPayload(payload, true)
+    if (!validation.ok) return validation
+    try {
+      const data = await updateAlumnoSupabase(getSupabaseClient(), idPersona, payload)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: err.code || 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async cambiarEstadoAlumno(idPersona, nuevoEstado) {
+    try {
+      const success = await setAlumnoEstadoSupabase(getSupabaseClient(), idPersona, nuevoEstado)
+      return { ok: success, id_persona: Number(idPersona), estado: Boolean(nuevoEstado) }
+    } catch (err) {
+      return { ok: false, error: { code: err.code || 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async getMiPerfilAlumno(personaId = null) {
+    const supabase = getSupabaseClient()
+    let alumno
+    if (personaId) {
+      alumno = await fetchAlumnosRelacional(supabase, personaId)
+    } else {
+      const { data: persona } = await supabase
+        .from('personas')
+        .select('id')
+        .eq('rol', 'alumno')
+        .limit(1)
+        .maybeSingle()
+      if (!persona) return null
+      alumno = await fetchAlumnosRelacional(supabase, persona.id)
+    }
+    if (!alumno) return null
+    const { data: profesor } = await supabase
+      .from('personas')
+      .select('*, usuario:usuarios(*)')
+      .eq('rol', 'profesor')
+      .limit(1)
+      .maybeSingle()
+    return {
+      ...alumno,
+      profesor: profesor
+        ? {
+            id: profesor.id,
+            nombre: profesor.nombre,
+            apellido: profesor.apellido,
+            nombre_completo: `${profesor.nombre} ${profesor.apellido}`.trim(),
+            email: profesor.usuario?.email || 'leandro@pirrosystem.com',
+            telefono: profesor.telefono || '+54 9 11 5555-0101',
+          }
+        : null,
+    }
   },
 
   async getGimnasios() {

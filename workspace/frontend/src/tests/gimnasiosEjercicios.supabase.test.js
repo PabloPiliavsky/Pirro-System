@@ -1,6 +1,7 @@
 import { describe, expect, test, beforeAll, afterAll } from 'vitest'
 import { supabaseAdapter } from '@/services/adapters/supabaseAdapter'
 import { supabaseAuthAdapter } from '@/services/adapters/supabaseAuthAdapter'
+import { getSupabaseClient } from '@/services/supabaseClient'
 
 const isSupabaseEnabled = process.env.RUN_SUPABASE_TESTS === 'true'
 const runIfSupabase = isSupabaseEnabled ? describe : describe.skip
@@ -57,6 +58,11 @@ runIfSupabase('supabaseAdapter - Gimnasios y Ejercicios (Docker Supabase)', () =
     const gymsAfter = await supabaseAdapter.getGimnasios()
     const deleted = gymsAfter.find((g) => g.id === res.data.id)
     expect(deleted.estado).toBe(false)
+
+    // Cleanup para evitar sedes duplicadas en la base de datos de pruebas
+    const sb = getSupabaseClient()
+    await sb.from('gimnasio_equipamiento').delete().eq('id_gimnasio', res.data.id)
+    await sb.from('gimnasios').delete().eq('id', res.data.id)
   })
 
   test('REQ-EJE-001, REQ-EJE-002, REQ-EJE-005: getEjercicios, guardarEjercicio y eliminarEjercicio operan en Postgres', async () => {
