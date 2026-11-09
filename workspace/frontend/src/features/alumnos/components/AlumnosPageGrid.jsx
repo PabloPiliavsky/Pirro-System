@@ -1,6 +1,7 @@
 // Anchored to REQ-ALU-007
 import { AlumnoCard } from './AlumnoCard'
-import { VStack } from '@/components/ui/VStack'
+import { AlumnosLoadingState } from './AlumnosLoadingState'
+import { AlumnosEmptyState } from './AlumnosEmptyState'
 
 export function AlumnosPageGrid({
   loading,
@@ -11,14 +12,7 @@ export function AlumnosPageGrid({
   onSolicitarBaja,
   onReactivar,
 }) {
-  if (loading) {
-    return (
-      <VStack align="center" justify="center" className="py-20 text-muted-foreground gap-3">
-        <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <span className="text-sm">Cargando alumnos...</span>
-      </VStack>
-    )
-  }
+  if (loading) return <AlumnosLoadingState />
 
   if (error) {
     return (
@@ -28,15 +22,7 @@ export function AlumnosPageGrid({
     )
   }
 
-  if (alumnos.length === 0) {
-    return (
-      <VStack align="center" justify="center" className="py-16 text-muted-foreground gap-2 border border-dashed border-border/60 rounded-2xl bg-card/40">
-        <span className="text-3xl">👤</span>
-        <span className="text-sm font-semibold text-foreground">No se encontraron alumnos</span>
-        <span className="text-xs">Probá cambiando los filtros o agregá un nuevo alumno.</span>
-      </VStack>
-    )
-  }
+  if (alumnos.length === 0) return <AlumnosEmptyState />
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

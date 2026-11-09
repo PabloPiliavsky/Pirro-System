@@ -78,6 +78,7 @@ export const mockAdapter = {
     return buildSystemSummaryView(loadMockDb())
   },
 
+  // TODO: [MOCK-CLEANUP] Métodos de Alumnos en MockAdapter (eliminar al migrar exclusivamente a Supabase)
   async getAlumnos() {
     return buildAlumnosView(loadMockDb())
   },

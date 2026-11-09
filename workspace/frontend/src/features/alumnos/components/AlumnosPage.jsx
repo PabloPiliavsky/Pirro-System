@@ -4,9 +4,7 @@ import { useAlumnos } from '../hooks/useAlumnos'
 import { AlumnosPageHeader } from './AlumnosPageHeader'
 import { AlumnosFilterBar } from './AlumnosFilterBar'
 import { AlumnosPageGrid } from './AlumnosPageGrid'
-import { AlumnoFormModal } from './AlumnoFormModal'
-import { FichaMedicaModal } from './FichaMedicaModal'
-import { ConfirmarBajaModal } from './ConfirmarBajaModal'
+import { AlumnosModals } from './AlumnosModals'
 import { VStack } from '@/components/ui/VStack'
 
 export function AlumnosPage() {
@@ -67,39 +65,21 @@ export function AlumnosPage() {
         onReactivar={(id) => handleToggleEstado(id, true)}
       />
 
-      {isCreateOpen && (
-        <AlumnoFormModal
-          alumno={null}
-          gimnasios={gimnasios}
-          onClose={() => setIsCreateOpen(false)}
-          onSave={handleCreate}
-        />
-      )}
-
-      {editingAlumno && (
-        <AlumnoFormModal
-          alumno={editingAlumno}
-          gimnasios={gimnasios}
-          onClose={() => setEditingAlumno(null)}
-          onSave={handleUpdate}
-        />
-      )}
-
-      {viewingFichaAlumno && (
-        <FichaMedicaModal
-          alumno={viewingFichaAlumno}
-          onClose={() => setViewingFichaAlumno(null)}
-        />
-      )}
-
-      {bajaTargetAlumno && (
-        <ConfirmarBajaModal
-          alumno={bajaTargetAlumno}
-          onClose={() => setBajaTargetAlumno(null)}
-          onConfirm={handleConfirmarBaja}
-          submitting={bajaSubmitting}
-        />
-      )}
+      <AlumnosModals
+        isCreateOpen={isCreateOpen}
+        editingAlumno={editingAlumno}
+        viewingFichaAlumno={viewingFichaAlumno}
+        bajaTargetAlumno={bajaTargetAlumno}
+        bajaSubmitting={bajaSubmitting}
+        gimnasios={gimnasios}
+        onCloseCreate={() => setIsCreateOpen(false)}
+        onCloseEdit={() => setEditingAlumno(null)}
+        onCloseFicha={() => setViewingFichaAlumno(null)}
+        onCloseBaja={() => setBajaTargetAlumno(null)}
+        onSaveCreate={handleCreate}
+        onSaveEdit={handleUpdate}
+        onConfirmBaja={handleConfirmarBaja}
+      />
     </VStack>
   )
 }

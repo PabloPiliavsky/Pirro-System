@@ -1,6 +1,7 @@
 // Anchored to REQ-ALU-002, REQ-ALU-003, REQ-ALU-004, REQ-ALU-005
 import { useAlumnoForm } from '../hooks/useAlumnoForm'
 import { AlumnoModalHeader } from './AlumnoModalHeader'
+import { AlumnoModalError } from './AlumnoModalError'
 import { AlumnoFormIdentityFields } from './AlumnoFormIdentityFields'
 import { AlumnoFormFitnessFields } from './AlumnoFormFitnessFields'
 import { AlumnoFormMedicalFields } from './AlumnoFormMedicalFields'
@@ -14,12 +15,7 @@ export function AlumnoFormModal({ alumno, gimnasios = [], onClose, onSave }) {
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
       <VStack className="bg-card border border-border rounded-2xl w-full max-w-2xl p-6 shadow-2xl max-h-[92vh]">
         <AlumnoModalHeader isEditing={form.isEditing} onClose={onClose} />
-
-        {form.errorMsg && (
-          <div className="mt-3 p-3 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg">
-            {form.errorMsg}
-          </div>
-        )}
+        <AlumnoModalError message={form.errorMsg} />
 
         <form onSubmit={form.handleSubmit} className="flex-1 overflow-y-auto py-3 space-y-4 pr-1">
           <AlumnoFormIdentityFields

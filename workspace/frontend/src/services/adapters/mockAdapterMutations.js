@@ -109,6 +109,7 @@ export function saveEquipamientoMock(db, payload) {
   return equipamiento
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function createAlumnoMock(db, payload) {
   const emailLower = payload.email.trim().toLowerCase()
   const usuarioLower = payload.nombre_usuario.trim().toLowerCase()
@@ -168,6 +169,7 @@ export function createAlumnoMock(db, payload) {
   return { id_persona: nextPersonaId, id_usuario: nextUsuarioId }
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function updateAlumnoMock(db, idPersona, payload) {
   const persona = db.personas.find((p) => p.id === Number(idPersona))
   if (!persona) throw new Error(`Alumno ${idPersona} no encontrado`)
@@ -217,6 +219,7 @@ export function updateAlumnoMock(db, idPersona, payload) {
   return { id_persona: Number(idPersona) }
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function setAlumnoEstadoMock(db, idPersona, nuevoEstado) {
   const persona = db.personas.find((p) => p.id === Number(idPersona))
   if (!persona) return false

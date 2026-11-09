@@ -4,6 +4,7 @@ import { FichaMedicaAlert } from './FichaMedicaAlert'
 import { FichaMedicaBiometria } from './FichaMedicaBiometria'
 import { FichaMedicaNotas } from './FichaMedicaNotas'
 import { VStack } from '@/components/ui/VStack'
+import { HStack } from '@/components/ui/HStack'
 
 export function FichaMedicaModal({ alumno, onClose }) {
   if (!alumno) return null
@@ -16,7 +17,7 @@ export function FichaMedicaModal({ alumno, onClose }) {
         <FichaMedicaBiometria alumno={alumno} />
         <FichaMedicaNotas alumno={alumno} />
 
-        <div className="pt-2 flex justify-end">
+        <HStack justify="end" className="pt-2">
           <button
             type="button"
             onClick={onClose}
@@ -24,7 +25,7 @@ export function FichaMedicaModal({ alumno, onClose }) {
           >
             Cerrar Ficha
           </button>
-        </div>
+        </HStack>
       </VStack>
     </div>
   )

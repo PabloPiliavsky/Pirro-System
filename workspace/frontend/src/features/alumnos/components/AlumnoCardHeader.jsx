@@ -1,12 +1,7 @@
 // Anchored to REQ-ALU-007
 import { HStack } from '@/components/ui/HStack'
 import { VStack } from '@/components/ui/VStack'
-
-function getInitials(nombre, apellido) {
-  const n = (nombre || '').trim().charAt(0).toUpperCase()
-  const a = (apellido || '').trim().charAt(0).toUpperCase()
-  return `${n}${a}` || 'AL'
-}
+import { getInitials } from '../utils/getInitials'
 
 export function AlumnoCardHeader({ alumno }) {
   const initials = getInitials(alumno.nombre, alumno.apellido)

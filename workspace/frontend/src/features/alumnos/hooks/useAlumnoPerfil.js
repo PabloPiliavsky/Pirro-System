@@ -1,5 +1,5 @@
 // Anchored to REQ-ALU-009
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/features/auth/context/AuthContext'
 import { fetchMiPerfilAlumno } from '../../../services/alumnosService'
 
@@ -9,7 +9,7 @@ export function useAlumnoPerfil() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const reload = useCallback(async () => {
+  const reload = async () => {
     setLoading(true)
     setError(null)
     try {
@@ -21,11 +21,11 @@ export function useAlumnoPerfil() {
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }
 
   useEffect(() => {
     reload()
-  }, [reload])
+  }, [user])
 
   return { perfil, loading, error, reload }
 }

@@ -1,6 +1,7 @@
 // TODO: [MOCK-CLEANUP] Eliminar este archivo completamente cuando la fase de desarrollo/test mock finalice y se utilice exclusivamente Supabase.
 // Anchored to REQ-FND-004, REQ-FND-005, REQ-FND-006, REQ-ALU-001, REQ-ALU-008, REQ-ALU-009
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function buildAlumnosView(db) {
   return db.perfil_alumno.map((perfil) => {
     const persona = db.personas.find((p) => p.id === perfil.id_persona)
@@ -27,11 +28,13 @@ export function buildAlumnosView(db) {
   })
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function buildAlumnoByIdView(db, idPersona) {
   const alumnos = buildAlumnosView(db)
   return alumnos.find((a) => a.id_persona === Number(idPersona)) || null
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function buildMiPerfilAlumnoView(db, personaId = 2) {
   const alumno = buildAlumnoByIdView(db, personaId)
   if (!alumno) return null

@@ -1,5 +1,5 @@
 // Anchored to REQ-ALU-001, REQ-ALU-006, REQ-ALU-007
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   fetchAlumnos,
   saveAlumno,
@@ -7,24 +7,7 @@ import {
   setAlumnoEstado,
 } from '../../../services/alumnosService'
 import { fetchGimnasios } from '../../../services/gimnasiosService'
-
-function filterAlumnoItem(alumno, search, gymId, status) {
-  if (status === 'ACTIVE' && !alumno.estado) return false
-  if (status === 'INACTIVE' && alumno.estado) return false
-
-  if (gymId !== 'ALL') {
-    if (gymId === 'NONE' && alumno.id_gimnasio !== null) return false
-    if (gymId !== 'NONE' && String(alumno.id_gimnasio) !== String(gymId)) return false
-  }
-
-  if (!search) return true
-  const term = search.toLowerCase()
-  const nombre = (alumno.nombre_completo || '').toLowerCase()
-  const usuario = (alumno.nombre_usuario || '').toLowerCase()
-  const email = (alumno.email || '').toLowerCase()
-
-  return nombre.includes(term) || usuario.includes(term) || email.includes(term)
-}
+import { filterAlumnoItem } from '../utils/filterAlumnoItem'
 
 export function useAlumnos() {
   const [alumnos, setAlumnos] = useState([])
@@ -35,7 +18,7 @@ export function useAlumnos() {
   const [selectedGimnasioId, setSelectedGimnasioId] = useState('ALL')
   const [statusFilter, setStatusFilter] = useState('ACTIVE')
 
-  const reload = useCallback(async () => {
+  const reload = async () => {
     setLoading(true)
     setError(null)
     try {
@@ -50,11 +33,11 @@ export function useAlumnos() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }
 
   useEffect(() => {
     reload()
-  }, [reload])
+  }, [])
 
   const filteredAlumnos = useMemo(() => {
     return alumnos.filter((item) =>

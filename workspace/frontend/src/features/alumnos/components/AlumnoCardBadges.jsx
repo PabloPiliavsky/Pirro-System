@@ -5,7 +5,7 @@ export function AlumnoCardBadges({ alumno }) {
   const tieneAlertaMedica = Boolean(alumno.salud_enfermedades?.trim())
 
   return (
-    <div className="flex flex-wrap gap-1.5 mb-3">
+    <HStack wrap className="gap-1.5 mb-3">
       <span className="px-2 py-0.5 text-xs font-medium rounded-md bg-secondary text-secondary-foreground border border-border/40">
         📍 {alumno.gimnasio?.nombre || 'Sin sede'}
       </span>
@@ -26,6 +26,6 @@ export function AlumnoCardBadges({ alumno }) {
           ⚠️ Ficha Médica
         </span>
       )}
-    </div>
+    </HStack>
   )
 }

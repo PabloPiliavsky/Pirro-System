@@ -1,6 +1,7 @@
 // Anchored to REQ-ALU-006
 import { HStack } from '@/components/ui/HStack'
 import { VStack } from '@/components/ui/VStack'
+import { ConfirmarBajaHeader } from './ConfirmarBajaHeader'
 
 export function ConfirmarBajaModal({ alumno, onClose, onConfirm, submitting }) {
   if (!alumno) return null
@@ -8,19 +9,10 @@ export function ConfirmarBajaModal({ alumno, onClose, onConfirm, submitting }) {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
       <VStack className="bg-card border border-border rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="size-10 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 flex items-center justify-center text-lg shrink-0">
-            ⚠️
-          </div>
-          <div>
-            <h3 className="text-lg font-bold text-foreground">
-              Confirmar Baja de Alumno
-            </h3>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {alumno.nombre_completo} (@{alumno.nombre_usuario})
-            </p>
-          </div>
-        </div>
+        <ConfirmarBajaHeader
+          nombreCompleto={alumno.nombre_completo}
+          nombreUsuario={alumno.nombre_usuario}
+        />
 
         <p className="text-sm text-foreground/90 leading-relaxed">
           ¿Estás seguro de que deseás dar de baja a <span className="font-bold">{alumno.nombre_completo}</span>?
