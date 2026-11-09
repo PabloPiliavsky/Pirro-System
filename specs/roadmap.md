@@ -55,3 +55,11 @@
      - Consulta histórica para el profesor de las planillas completadas por cada alumno (filtradas por fecha, rutina o ejercicio) viendo la evolución de pesos, repeticiones y comentarios.
      - Exportación directa a `.xlsx` (Excel) con hojas estructuradas: `Ficha del Alumno`, `Rutinas Semanales` e `Historial de Entrenamientos`.
    - **Dependencias**: `006-planilla-entrenamiento-alumno`.
+
+8. **`specs/008-historial-antropometrico/`**: Historial y Evolución Antropométrica (Peso, Altura e IMC) (Rol Profesor y Alumno)
+   - **Propósito**:
+     - Registro cronológico y seguimiento de mediciones físicas (`id_persona`, `fecha_medicion`, `peso_kg`, `altura_cm`, notas/observaciones) sin sobreescribir el historial histórico.
+     - Sincronización automática del valor más reciente en `perfil_alumno` para mantener la ficha actual e IMC base coherentes.
+     - Gráficos interactivos de evolución temporal de peso corporal e IMC accesibles tanto en el modal de ficha del profesor como en el perfil del alumno (`/alumno/perfil`).
+     - Incorporación de la hoja "Historial Antropométrico" en el generador de reportes `.xlsx` construido en la Feature 007.
+   - **Dependencias**: `004-gestion-alumnos` y `007-progreso-y-exportacion-excel`.

@@ -4,6 +4,7 @@ import { validateTrainingBatchPayload } from '../validators/trainingBatchValidat
 import { validateGimnasioPayload } from '../validators/gimnasiosValidator'
 import { validateEjercicioPayload } from '../validators/ejerciciosValidator'
 import { validateAlumnoPayload } from '../validators/alumnosValidator'
+import { validateRutinaPayload } from '../validators/rutinasValidator'
 import {
   saveGimnasioSupabase,
   deleteGimnasioSupabase,
@@ -13,6 +14,8 @@ import {
   createAlumnoSupabase,
   updateAlumnoSupabase,
   setAlumnoEstadoSupabase,
+  saveRutinaCompletaSupabase,
+  deleteRutinaSupabase,
 } from './supabaseAdapterMutations'
 
 async function fetchAlumnosRelacional(supabase, filterPersonaId = null) {
@@ -64,7 +67,7 @@ async function fetchGimnasiosRelacional(supabase) {
 async function fetchRutinasRelacional(supabase, idAlumno) {
   const { data, error } = await supabase
     .from('rutinas')
-    .select('*, ejercicios:rutina_ejercicios(*, ejercicio:ejercicios(*))')
+    .select('*, ejercicios:rutina_ejercicios(*, ejercicio:ejercicios(*, equipamiento_requerido:equipamiento(*)))')
     .eq('id_alumno', Number(idAlumno))
     .eq('activa', true)
     .order('numero_dia', { ascending: true })
@@ -272,6 +275,26 @@ export const supabaseAdapter = {
 
   async getRutinasByAlumno(idAlumno) {
     return fetchRutinasRelacional(getSupabaseClient(), idAlumno)
+  },
+
+  async guardarRutinaCompleta(payload) {
+    const validation = validateRutinaPayload(payload)
+    if (!validation.ok) return validation
+    try {
+      const data = await saveRutinaCompletaSupabase(getSupabaseClient(), payload)
+      return { ok: true, data }
+    } catch (err) {
+      return { ok: false, error: { code: 'SUPABASE_ERROR', message: err.message } }
+    }
+  },
+
+  async eliminarRutina(idRutina) {
+    try {
+      const success = await deleteRutinaSupabase(getSupabaseClient(), idRutina)
+      return { ok: success }
+    } catch (err) {
+      return { ok: false, error: { code: 'SUPABASE_ERROR', message: err.message } }
+    }
   },
 
   async guardarEntrenamientoBatch(payload) {
