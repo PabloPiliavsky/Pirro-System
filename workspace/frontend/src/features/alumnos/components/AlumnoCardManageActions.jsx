@@ -1,14 +1,30 @@
 // Anchored to REQ-ALU-006, REQ-ALU-007
 import { HStack } from '@/components/ui/HStack'
 
+const ESTADO_CONFIG = {
+  activo: {
+    label: 'Baja',
+    title: 'Dar de baja',
+    style: 'text-red-400 hover:bg-red-500/15 border border-red-500/20',
+  },
+  inactivo: {
+    label: 'Activar',
+    title: 'Reactivar',
+    style: 'text-emerald-400 hover:bg-emerald-500/15 border border-emerald-500/20',
+  },
+}
+
 export function AlumnoCardManageActions({ alumno, onEdit, onSolicitarBaja, onReactivar }) {
+  const isActivo = Boolean(alumno.estado)
+  const estadoConfig = isActivo ? ESTADO_CONFIG.activo : ESTADO_CONFIG.inactivo
+
   const handleEstadoClick = (e) => {
     e.stopPropagation()
-    if (alumno.estado) {
+    if (isActivo) {
       onSolicitarBaja(alumno)
-    } else {
-      onReactivar(alumno.id_persona)
+      return
     }
+    onReactivar(alumno.id_persona)
   }
 
   return (
@@ -27,14 +43,10 @@ export function AlumnoCardManageActions({ alumno, onEdit, onSolicitarBaja, onRea
       <button
         type="button"
         onClick={handleEstadoClick}
-        className={`px-2 py-1 text-xs font-medium rounded-md transition-all cursor-pointer active:scale-95 ${
-          alumno.estado
-            ? 'text-red-400 hover:bg-red-500/15 border border-red-500/20'
-            : 'text-emerald-400 hover:bg-emerald-500/15 border border-emerald-500/20'
-        }`}
-        title={alumno.estado ? 'Dar de baja' : 'Reactivar'}
+        className={`px-2 py-1 text-xs font-medium rounded-md transition-all cursor-pointer active:scale-95 ${estadoConfig.style}`}
+        title={estadoConfig.title}
       >
-        {alumno.estado ? 'Baja' : 'Activar'}
+        {estadoConfig.label}
       </button>
     </HStack>
   )

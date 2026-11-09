@@ -1,17 +1,28 @@
 // Anchored to REQ-ALU-007
 import { HStack } from '@/components/ui/HStack'
 
+const HEADER_CONFIG = {
+  edit: {
+    title: 'Editar Alumno y Ficha',
+    desc: 'Actualizá los datos de acceso, contacto y ficha física.',
+  },
+  create: {
+    title: 'Nuevo Alumno',
+    desc: 'Creá la cuenta del alumno y configurá su ficha inicial.',
+  },
+}
+
 export function AlumnoModalHeader({ isEditing, onClose }) {
+  const content = isEditing ? HEADER_CONFIG.edit : HEADER_CONFIG.create
+
   return (
     <HStack justify="between" align="center" className="border-b border-border/40 pb-3">
       <div>
         <h2 className="text-xl font-bold text-foreground">
-          {isEditing ? 'Editar Alumno y Ficha' : 'Nuevo Alumno'}
+          {content.title}
         </h2>
         <p className="text-xs text-muted-foreground mt-0.5">
-          {isEditing
-            ? 'Actualizá los datos de acceso, contacto y ficha física.'
-            : 'Creá la cuenta del alumno y configurá su ficha inicial.'}
+          {content.desc}
         </p>
       </div>
       <button

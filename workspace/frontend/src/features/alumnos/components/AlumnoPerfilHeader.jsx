@@ -3,16 +3,17 @@ import { HStack } from '@/components/ui/HStack'
 import { VStack } from '@/components/ui/VStack'
 
 export function AlumnoPerfilHeader({ perfil }) {
-  const nombre = perfil?.persona?.nombre || perfil?.nombre || 'Alumno'
-  const apellido = perfil?.persona?.apellido || perfil?.apellido || ''
-  const usuario = perfil?.usuario?.nombre_usuario || perfil?.nombre_usuario || ''
-  const email = perfil?.usuario?.email || perfil?.email || ''
+  const nombre = perfil?.nombre || perfil?.persona?.nombre || 'Alumno'
+  const apellido = perfil?.apellido || perfil?.persona?.apellido || ''
+  const usuario = perfil?.nombre_usuario || perfil?.usuario?.nombre_usuario || 'usuario'
+  const email = perfil?.email || perfil?.usuario?.email || 'Sin correo'
+  const iniciales = `${nombre.charAt(0)}${apellido.charAt(0)}`
 
   return (
     <div className="bg-card border border-border/60 rounded-2xl p-5 shadow-sm">
       <HStack align="center" className="gap-4">
         <div className="size-16 rounded-full bg-primary/15 border-2 border-primary/40 text-primary font-black flex items-center justify-center text-xl shadow-inner shrink-0">
-          {nombre.charAt(0)}{apellido.charAt(0)}
+          {iniciales}
         </div>
         <VStack className="min-w-0 flex-1">
           <h1 className="text-xl font-black text-foreground truncate">

@@ -5,9 +5,15 @@ import { GimnasioCardActions } from './GimnasioCardActions'
 import { HStack } from '@/components/ui/HStack'
 import { VStack } from '@/components/ui/VStack'
 
+const ESTADO_CONFIG = {
+  activo: { label: 'Activo', style: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  inactivo: { label: 'Inactivo', style: 'bg-red-500/10 text-red-400 border-red-500/20' },
+}
+
 export function GimnasioCard({ gimnasio, onEdit, onDelete, onReactivate }) {
   const apertura = formatTime(gimnasio.horario_apertura)
   const cierre = formatTime(gimnasio.horario_cierre)
+  const estadoBadge = gimnasio.estado ? ESTADO_CONFIG.activo : ESTADO_CONFIG.inactivo
 
   return (
     <VStack
@@ -17,14 +23,8 @@ export function GimnasioCard({ gimnasio, onEdit, onDelete, onReactivate }) {
       <div>
         <HStack justify="between" align="start" className="gap-3 mb-2">
           <h3 className="text-lg font-bold text-white tracking-wide">{gimnasio.nombre}</h3>
-          <span
-            className={`px-2 py-0.5 text-xs font-semibold rounded-full border ${
-              gimnasio.estado
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                : 'bg-red-500/10 text-red-400 border-red-500/20'
-            }`}
-          >
-            {gimnasio.estado ? 'Activo' : 'Inactivo'}
+          <span className={`px-2 py-0.5 text-xs font-semibold rounded-full border ${estadoBadge.style}`}>
+            {estadoBadge.label}
           </span>
         </HStack>
 
