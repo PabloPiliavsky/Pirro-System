@@ -1,5 +1,7 @@
 // Anchored to REQ-RUT-005, REQ-RUT-006, REQ-RUT-008
 import { checkDisponibilidadEquipamiento } from '../utils/equipamientoChecker'
+import { RutinaEjercicioAcciones } from './RutinaEjercicioAcciones'
+import { RutinaEjercicioCampos } from './RutinaEjercicioCampos'
 
 export function RutinaEjercicioItem({
   item,
@@ -22,9 +24,9 @@ export function RutinaEjercicioItem({
 
         <div className="space-y-1.5 flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <h4 className="text-sm font-bold text-foreground truncate">{ej.nombre || 'Ejercicio'}</h4>
+            <h4 className="text-sm font-bold text-foreground truncate">{ej.nombre}</h4>
             <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-secondary text-muted-foreground">
-              {ej.grupo_muscular || 'General'}
+              {ej.grupo_muscular}
             </span>
             {statusEq.advertencia && (
               <span className="text-[11px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md flex items-center gap-1">
@@ -33,70 +35,20 @@ export function RutinaEjercicioItem({
             )}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 max-w-lg">
-            <div>
-              <label className="text-[10px] font-bold text-muted-foreground uppercase">Series</label>
-              <input
-                type="number"
-                min="1"
-                max="20"
-                value={item.series_objetivo}
-                onChange={(e) => onActualizar(index, 'series_objetivo', Number(e.target.value))}
-                className="w-full bg-background border border-border rounded-lg px-2.5 py-1 text-xs font-bold text-foreground focus:ring-1 focus:ring-primary focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-muted-foreground uppercase">Repeticiones</label>
-              <input
-                type="text"
-                value={item.repeticiones_objetivo}
-                onChange={(e) => onActualizar(index, 'repeticiones_objetivo', e.target.value)}
-                placeholder="10-12"
-                className="w-full bg-background border border-border rounded-lg px-2.5 py-1 text-xs font-bold text-foreground focus:ring-1 focus:ring-primary focus:outline-none"
-              />
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase">Notas / Tempo</label>
-              <input
-                type="text"
-                value={item.notas_profesor || ''}
-                onChange={(e) => onActualizar(index, 'notas_profesor', e.target.value)}
-                placeholder="Indicaciones..."
-                className="w-full bg-background border border-border rounded-lg px-2.5 py-1 text-xs text-foreground focus:ring-1 focus:ring-primary focus:outline-none"
-              />
-            </div>
-          </div>
+          <RutinaEjercicioCampos
+            item={item}
+            index={index}
+            onActualizar={onActualizar}
+          />
         </div>
       </div>
 
-      <div className="flex items-center self-end md:self-center gap-1.5 shrink-0 pt-2 md:pt-0">
-        <button
-          type="button"
-          disabled={index === 0}
-          onClick={() => onMover(index, 'arriba')}
-          title="Mover arriba"
-          className="w-8 h-8 rounded-lg bg-secondary hover:bg-secondary/80 disabled:opacity-30 disabled:cursor-not-allowed text-foreground flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs font-bold"
-        >
-          ▲
-        </button>
-        <button
-          type="button"
-          disabled={index === total - 1}
-          onClick={() => onMover(index, 'abajo')}
-          title="Mover abajo"
-          className="w-8 h-8 rounded-lg bg-secondary hover:bg-secondary/80 disabled:opacity-30 disabled:cursor-not-allowed text-foreground flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs font-bold"
-        >
-          ▼
-        </button>
-        <button
-          type="button"
-          onClick={() => onEliminar(index)}
-          title="Quitar de la rutina"
-          className="w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs"
-        >
-          🗑️
-        </button>
-      </div>
+      <RutinaEjercicioAcciones
+        index={index}
+        total={total}
+        onMover={onMover}
+        onEliminar={onEliminar}
+      />
     </div>
   )
 }

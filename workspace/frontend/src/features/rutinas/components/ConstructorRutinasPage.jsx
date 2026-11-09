@@ -1,11 +1,14 @@
 // Anchored to REQ-RUT-008, REQ-RUT-010, REQ-RUT-011
 import { useState, useEffect } from 'react'
+import { VStack } from '@/components/ui/VStack'
 import { fetchAlumnos } from '../../../services/alumnosService'
 import { useConstructorRutinas } from '../hooks/useConstructorRutinas'
 import { ConstructorAlumnoHeader } from './ConstructorAlumnoHeader'
 import { ConstructorDiasTabs } from './ConstructorDiasTabs'
 import { RutinaEditorPanel } from './RutinaEditorPanel'
 import { CatalogoSelectorModal } from './CatalogoSelectorModal'
+import { ConstructorFeedbackAlert } from './ConstructorFeedbackAlert'
+import { ConstructorEmptyState } from './ConstructorEmptyState'
 import { FichaMedicaModal } from '../../alumnos/components/FichaMedicaModal'
 
 export function ConstructorRutinasPage() {
@@ -33,14 +36,18 @@ export function ConstructorRutinasPage() {
   } = useConstructorRutinas()
 
   useEffect(() => {
-    fetchAlumnos().then((data) => {
-      const activos = (data || []).filter((a) => a.estado !== false)
-      setAlumnos(activos)
-    })
+    fetchAlumnos()
+      .then((data) => {
+        const activos = (data || []).filter((a) => a.estado)
+        setAlumnos(activos)
+      })
+      .catch(() => {
+        setAlumnos([])
+      })
   }, [])
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-12">
+    <VStack className="space-y-6 max-w-5xl mx-auto pb-12">
       <div>
         <h2 className="text-2xl font-black text-foreground tracking-tight">
           Constructor de Rutinas
@@ -57,20 +64,10 @@ export function ConstructorRutinasPage() {
         onAbrirFicha={setAlumnoFicha}
       />
 
-      {mensaje && (
-        <div
-          className={`p-3.5 rounded-xl text-xs font-bold border transition-all ${
-            mensaje.tipo === 'success'
-              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-              : 'bg-red-500/10 border-red-500/30 text-red-400'
-          }`}
-        >
-          {mensaje.texto}
-        </div>
-      )}
+      <ConstructorFeedbackAlert mensaje={mensaje} />
 
       {alumno ? (
-        <div className="space-y-5">
+        <VStack className="space-y-5">
           <ConstructorDiasTabs
             cantidadDias={cantidadDias}
             diaActivo={diaActivo}
@@ -91,15 +88,9 @@ export function ConstructorRutinasPage() {
             onGuardar={guardarRutina}
             saving={saving}
           />
-        </div>
+        </VStack>
       ) : (
-        <div className="text-center py-16 px-4 bg-card/40 border border-border rounded-2xl">
-          <p className="text-4xl mb-3">📋</p>
-          <h3 className="text-base font-bold text-foreground">Ningún alumno seleccionado</h3>
-          <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
-            Selecciona un alumno en el menú superior para comenzar a armar su rutina semanal.
-          </p>
-        </div>
+        <ConstructorEmptyState />
       )}
 
       <CatalogoSelectorModal
@@ -110,7 +101,7 @@ export function ConstructorRutinasPage() {
       />
 
       <FichaMedicaModal alumno={alumnoFicha} onClose={() => setAlumnoFicha(null)} />
-    </div>
+    </VStack>
   )
 }
 

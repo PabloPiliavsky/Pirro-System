@@ -7,9 +7,7 @@ export function checkDisponibilidadEquipamiento(ejercicio, gimnasio) {
 
   const reqId = Number(ejercicio.id_equipamiento_requerido)
   const nombreEquipo =
-    ejercicio.equipamiento_requerido?.nombre ||
-    ejercicio.equipamiento?.nombre ||
-    'Máquina requerida'
+    ejercicio.equipamiento_requerido?.nombre || 'Máquina requerida'
 
   if (!gimnasio) {
     return {
@@ -21,7 +19,7 @@ export function checkDisponibilidadEquipamiento(ejercicio, gimnasio) {
 
   const disponibles = gimnasio.equipamiento_disponible || []
   const existe = disponibles.some(
-    (ge) => Number(ge.id_equipamiento) === reqId && ge.estado !== false
+    (ge) => Number(ge.id_equipamiento) === reqId && ge.estado
   )
 
   if (existe) {

@@ -1,16 +1,7 @@
 // Anchored to REQ-RUT-009
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { fetchEjercicios } from '../../../services/ejerciciosService'
-
-export const GRUPOS_MUSCULARES = [
-  'Todos',
-  'Pecho',
-  'Espalda',
-  'Piernas',
-  'Hombros',
-  'Brazos',
-  'Core',
-]
+import { GRUPOS_MUSCULARES } from '../constants/gruposMusculares'
 
 export function useCatalogoSelector() {
   const [ejercicios, setEjercicios] = useState([])
@@ -18,30 +9,32 @@ export function useCatalogoSelector() {
   const [busqueda, setBusqueda] = useState('')
   const [grupoSeleccionado, setGrupoSeleccionado] = useState('Todos')
 
-  const loadEjercicios = useCallback(async () => {
+  async function loadEjercicios() {
     setLoading(true)
     try {
       const data = await fetchEjercicios()
-      const activos = (data || []).filter((e) => e.estado !== false)
+      const activos = (data || []).filter((e) => e.estado)
       setEjercicios(activos)
+    } catch {
+      setEjercicios([])
     } finally {
       setLoading(false)
     }
-  }, [])
+  }
 
   useEffect(() => {
     loadEjercicios()
-  }, [loadEjercicios])
+  }, [])
 
   const ejerciciosFiltrados = useMemo(() => {
     const term = busqueda.trim().toLowerCase()
     return ejercicios.filter((ej) => {
       const matchGrupo =
         grupoSeleccionado === 'Todos' ||
-        ej.grupo_muscular?.toLowerCase() === grupoSeleccionado.toLowerCase()
+        ej.grupo_muscular.toLowerCase() === grupoSeleccionado.toLowerCase()
       const matchTexto =
         !term ||
-        ej.nombre?.toLowerCase().includes(term) ||
+        ej.nombre.toLowerCase().includes(term) ||
         ej.indicaciones?.toLowerCase().includes(term)
       return matchGrupo && matchTexto
     })

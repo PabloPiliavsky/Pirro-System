@@ -181,10 +181,12 @@ export const mockAdapter = {
     return { ok: success }
   },
 
+  // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
   async getRutinasByAlumno(idAlumno) {
     return buildRutinasByAlumno(loadMockDb(), idAlumno)
   },
 
+  // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
   async guardarRutinaCompleta(payload) {
     const validation = validateRutinaPayload(payload)
     if (!validation.ok) return validation
@@ -194,6 +196,7 @@ export const mockAdapter = {
     return { ok: true, data }
   },
 
+  // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
   async eliminarRutina(idRutina) {
     const db = loadMockDb()
     const success = deleteRutinaMock(db, idRutina)

@@ -229,6 +229,7 @@ export function setAlumnoEstadoMock(db, idPersona, nuevoEstado) {
   return true
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function saveRutinaCompletaMock(db, payload) {
   const idAlumno = Number(payload.id_alumno)
   const numeroDia = Number(payload.numero_dia)
@@ -273,6 +274,7 @@ export function saveRutinaCompletaMock(db, payload) {
   return { id: rutina.id, id_alumno: idAlumno, numero_dia: numeroDia }
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function deleteRutinaMock(db, idRutina) {
   const r = db.rutinas.find((item) => item.id === Number(idRutina))
   if (r) {

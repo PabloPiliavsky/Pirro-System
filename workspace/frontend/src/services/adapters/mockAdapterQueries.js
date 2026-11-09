@@ -67,6 +67,7 @@ export function buildGimnasiosView(db) {
   })
 }
 
+// TODO: [MOCK-CLEANUP] Eliminar esta función mock cuando se retire mockAdapter y se use exclusivamente Supabase.
 export function buildRutinasByAlumno(db, idAlumno) {
   return db.rutinas
     .filter((r) => r.id_alumno === Number(idAlumno) && r.activa)
