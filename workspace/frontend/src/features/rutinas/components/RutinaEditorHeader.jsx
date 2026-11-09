@@ -38,7 +38,12 @@ export function RutinaEditorHeader({
           onClick={onGuardar}
           className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground font-black text-xs transition-all cursor-pointer active:scale-95 shadow-md shadow-primary/20 flex items-center gap-1.5"
         >
-          <span>💾</span> {saving ? 'Guardando...' : 'Guardar Día'}
+          {saving ? (
+            <div className="size-3.5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+          ) : (
+            <span>💾</span>
+          )}
+          <span>{saving ? 'Guardando...' : 'Guardar Día'}</span>
         </button>
       </HStack>
     </div>

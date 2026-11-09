@@ -3,7 +3,13 @@ import { useCatalogoSelector } from '../hooks/useCatalogoSelector'
 import { CatalogoFiltros } from './CatalogoFiltros'
 import { CatalogoItemRow } from './CatalogoItemRow'
 
-export function CatalogoSelectorModal({ isOpen, onClose, onAgregarEjercicio, gimnasio }) {
+export function CatalogoSelectorModal({
+  isOpen,
+  onClose,
+  onAgregarEjercicio,
+  gimnasio,
+  ejerciciosDia = [],
+}) {
   const {
     ejerciciosFiltrados,
     loading,
@@ -52,6 +58,7 @@ export function CatalogoSelectorModal({ isOpen, onClose, onAgregarEjercicio, gim
                 key={ej.id}
                 ejercicio={ej}
                 gimnasio={gimnasio}
+                ejerciciosDia={ejerciciosDia}
                 onAgregar={onAgregarEjercicio}
               />
             ))}

@@ -98,6 +98,7 @@ export function ConstructorRutinasPage() {
         onClose={() => setModalCatalogo(false)}
         onAgregarEjercicio={agregarEjercicio}
         gimnasio={alumno?.gimnasio}
+        ejerciciosDia={ejerciciosDia}
       />
 
       <FichaMedicaModal alumno={alumnoFicha} onClose={() => setAlumnoFicha(null)} />

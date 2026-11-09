@@ -41,6 +41,10 @@ export function useConstructorRutinas(alumnoInicial = null) {
   }, [alumno])
 
   useEffect(() => {
+    setMensaje(null)
+  }, [diaActivo, alumno])
+
+  useEffect(() => {
     const rutinaDia = rutinasSemana.find((r) => Number(r.numero_dia) === Number(diaActivo))
     if (rutinaDia) {
       setNombreRutina(rutinaDia.nombre_rutina || `Día ${diaActivo}`)
@@ -117,7 +121,8 @@ export function useConstructorRutinas(alumnoInicial = null) {
           orden: idx + 1,
         })),
       }
-      const res = await saveRutinaCompleta(payload)
+      const delay = new Promise((resolve) => setTimeout(resolve, 350))
+      const [res] = await Promise.all([saveRutinaCompleta(payload), delay])
       if (res.ok) {
         setMensaje({ tipo: 'success', texto: 'Rutina guardada correctamente.' })
         await cargarRutinas(alumno.id_persona)
