@@ -99,6 +99,7 @@ const INITIAL_SEED = {
       salud_enfermedades: 'Sin lesiones activas. Leve molestia previa en hombro derecho.',
       fecha_ingreso: '2026-03-10',
       cantidad_dias_rutina: 3,
+      mostrar_imc: false,
       comentario: 'Objetivo hipertrofia tren superior y fuerza base.',
     },
     {
@@ -110,6 +111,7 @@ const INITIAL_SEED = {
       salud_enfermedades: 'Apto médico vigente sin restricciones.',
       fecha_ingreso: '2026-05-18',
       cantidad_dias_rutina: 4,
+      mostrar_imc: false,
       comentario: 'Enfoque en fuerza de tren inferior y estabilidad de core.',
     },
   ],
