@@ -11,7 +11,7 @@ export function AlumnoCardActions({
   onReactivar,
 }) {
   return (
-    <HStack justify="between" align="center" className="pt-3 border-t border-border/40 gap-2">
+    <HStack wrap justify="between" align="center" className="pt-3 border-t border-slate-800 gap-2">
       <AlumnoCardContactActions alumno={alumno} onVerFicha={onVerFicha} />
       <AlumnoCardManageActions
         alumno={alumno}

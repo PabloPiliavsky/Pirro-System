@@ -15,6 +15,7 @@ import {
   buildRutinasByAlumno,
   buildSystemSummaryView,
 } from './mockAdapterQueries'
+import { buildHistorialByAlumno } from './mockHistorialQueries'
 import {
   saveGimnasioMock,
   deleteGimnasioMock,
@@ -184,6 +185,11 @@ export const mockAdapter = {
   // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
   async getRutinasByAlumno(idAlumno) {
     return buildRutinasByAlumno(loadMockDb(), idAlumno)
+  },
+
+  // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.
+  async getHistorialByAlumno(idAlumno) {
+    return buildHistorialByAlumno(loadMockDb(), idAlumno)
   },
 
   // TODO: [MOCK-CLEANUP] Eliminar este método mock cuando se retire mockAdapter y se use exclusivamente Supabase.

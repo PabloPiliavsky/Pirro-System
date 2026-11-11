@@ -28,14 +28,14 @@ export function AlumnoCardManageActions({ alumno, onEdit, onSolicitarBaja, onRea
   }
 
   return (
-    <HStack align="center" className="gap-1.5">
+    <HStack wrap align="center" className="gap-1.5">
       <button
         type="button"
         onClick={(e) => {
           e.stopPropagation()
           onEdit(alumno)
         }}
-        className="px-2.5 py-1 text-xs font-medium rounded-md bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 transition-all cursor-pointer active:scale-95 shadow-xs"
+        className="px-2.5 py-1 text-xs font-semibold rounded-md bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 transition-all cursor-pointer active:scale-95 shadow-xs"
         title="Editar Alumno"
       >
         ✏️ Editar
@@ -43,7 +43,7 @@ export function AlumnoCardManageActions({ alumno, onEdit, onSolicitarBaja, onRea
       <button
         type="button"
         onClick={handleEstadoClick}
-        className={`px-2 py-1 text-xs font-medium rounded-md transition-all cursor-pointer active:scale-95 ${estadoConfig.style}`}
+        className={`px-2 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer active:scale-95 ${estadoConfig.style}`}
         title={estadoConfig.title}
       >
         {estadoConfig.label}
