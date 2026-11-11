@@ -38,6 +38,14 @@ export function useRoutineLocalStorage(idAlumno, idRutina) {
     return updated
   }
 
+  const updateFechaRealizacion = (nuevaFecha) => {
+    const current = readStoredDraft(idAlumno, idRutina)
+    const updated = { ...current, fechaRealizacion: nuevaFecha }
+    localStorage.setItem(getDraftStorageKey(idAlumno, idRutina), JSON.stringify(updated))
+    setDraft(updated)
+    return updated
+  }
+
   const clearDraft = () => {
     const fresh = createEmptyDraft(idAlumno, idRutina)
     localStorage.setItem(getDraftStorageKey(idAlumno, idRutina), JSON.stringify(fresh))
@@ -65,6 +73,7 @@ export function useRoutineLocalStorage(idAlumno, idRutina) {
     isSaving,
     lastResult,
     saveSerieDraft,
+    updateFechaRealizacion,
     clearDraft,
     commitBatch,
   }

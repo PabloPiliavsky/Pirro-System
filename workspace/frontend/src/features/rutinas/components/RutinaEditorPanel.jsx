@@ -18,7 +18,7 @@ export function RutinaEditorPanel({
   saving,
 }) {
   return (
-    <VStack className="bg-card/60 border border-border rounded-2xl p-5 space-y-5 backdrop-blur-sm">
+    <VStack className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-5">
       <RutinaEditorHeader
         diaActivo={diaActivo}
         nombreRutina={nombreRutina}

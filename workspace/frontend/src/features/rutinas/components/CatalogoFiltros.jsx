@@ -20,13 +20,22 @@ export function CatalogoFiltros({
 
   return (
     <VStack className="py-4 space-y-3 shrink-0">
-      <input
-        type="text"
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-        placeholder="Buscar por nombre o indicación..."
-        className="w-full bg-background border border-border rounded-xl px-4 py-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary focus:outline-none"
-      />
+      <div>
+        <label
+          htmlFor="buscar-catalogo-input"
+          className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"
+        >
+          Filtrar ejercicios del catálogo
+        </label>
+        <input
+          id="buscar-catalogo-input"
+          type="text"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          placeholder="Escribí nombre de ejercicio o indicación..."
+          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-primary focus:outline-none"
+        />
+      </div>
 
       <div className="relative flex items-center">
         <button

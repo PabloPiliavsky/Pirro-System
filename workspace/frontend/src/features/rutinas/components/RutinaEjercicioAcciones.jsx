@@ -9,7 +9,7 @@ export function RutinaEjercicioAcciones({ index, total, onMover, onEliminar }) {
         disabled={index === 0}
         onClick={() => onMover(index, 'arriba')}
         title="Mover arriba"
-        className="w-8 h-8 rounded-lg bg-secondary hover:bg-secondary/80 disabled:opacity-30 disabled:cursor-not-allowed text-foreground flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs font-bold"
+        className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-200 flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs font-bold shadow-xs"
       >
         ▲
       </button>
@@ -18,7 +18,7 @@ export function RutinaEjercicioAcciones({ index, total, onMover, onEliminar }) {
         disabled={index === total - 1}
         onClick={() => onMover(index, 'abajo')}
         title="Mover abajo"
-        className="w-8 h-8 rounded-lg bg-secondary hover:bg-secondary/80 disabled:opacity-30 disabled:cursor-not-allowed text-foreground flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs font-bold"
+        className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-200 flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs font-bold shadow-xs"
       >
         ▼
       </button>
@@ -26,7 +26,7 @@ export function RutinaEjercicioAcciones({ index, total, onMover, onEliminar }) {
         type="button"
         onClick={() => onEliminar(index)}
         title="Quitar de la rutina"
-        className="w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs"
+        className="w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 text-xs shadow-xs"
       >
         🗑️
       </button>

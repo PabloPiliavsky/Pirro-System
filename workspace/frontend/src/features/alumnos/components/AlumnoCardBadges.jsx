@@ -12,10 +12,10 @@ export function AlumnoCardBadges({ alumno }) {
 
   return (
     <HStack wrap className="gap-1.5 mb-3">
-      <span className="px-2 py-0.5 text-xs font-medium rounded-md bg-secondary text-secondary-foreground border border-border/40">
+      <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-slate-800 text-slate-300 border border-slate-700/60">
         📍 {alumno.gimnasio?.nombre || 'Sin sede'}
       </span>
-      <span className="px-2 py-0.5 text-xs font-medium rounded-md bg-secondary text-secondary-foreground border border-border/40">
+      <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-slate-800 text-slate-300 border border-slate-700/60">
         ⚡ {alumno.cantidad_dias_rutina} días/sem
       </span>
       <span className={`px-2 py-0.5 text-xs font-semibold rounded-md border ${estadoBadge.style}`}>

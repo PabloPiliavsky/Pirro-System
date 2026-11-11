@@ -7,23 +7,19 @@ import { UnauthorizedPage } from '@/features/auth/pages/UnauthorizedPage'
 import { ProfesorLayout } from './layouts/ProfesorLayout'
 import { AlumnoLayout } from './layouts/AlumnoLayout'
 import { ProfesorHome } from '@/features/auth/pages/ProfesorHome'
-import { AlumnoHome } from '@/features/auth/pages/AlumnoHome'
 import { GimnasiosPage } from '@/features/gimnasios/components/GimnasiosPage'
 import { EjerciciosPage } from '@/features/ejercicios/components/EjerciciosPage'
 import { AlumnosPage } from '@/features/alumnos/components/AlumnosPage'
 import { AlumnoPerfilPage } from '@/features/alumnos/components/AlumnoPerfilPage'
 import { ConstructorRutinasPage } from '@/features/rutinas/components/ConstructorRutinasPage'
+import { PlanillaEntrenamientoPage } from '@/features/training/components/PlanillaEntrenamientoPage'
+import { HistorialEntrenamientosPage } from '@/features/training/components/HistorialEntrenamientosPage'
 import { FeaturePlaceholder } from './layouts/FeaturePlaceholder'
 import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
 import { VStack } from '@/components/ui/VStack'
 
 const PROFESOR_PLACEHOLDER_MODULES = [
   { path: 'progreso', title: 'Progreso y Reportes Excel', desc: 'Evolución de cargas y exportación .xlsx', spec: 'specs/007-progreso-y-exportacion-excel' },
-]
-
-const ALUMNO_MODULES = [
-  { path: 'rutinas', title: 'Rutinas Asignadas', desc: 'Tus días y ejercicios de la semana', spec: 'specs/006-planilla-entrenamiento-alumno' },
-  { path: 'historial', title: 'Historial de Entrenamientos', desc: 'Consultá tus pesos y repeticiones previas', spec: 'specs/006-planilla-entrenamiento-alumno' },
 ]
 
 export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
@@ -85,15 +81,10 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
           </ProtectedRoute>
         }
       >
-        <Route index element={<AlumnoHome />} />
+        <Route index element={<PlanillaEntrenamientoPage />} />
+        <Route path="rutinas" element={<PlanillaEntrenamientoPage />} />
+        <Route path="historial" element={<HistorialEntrenamientosPage />} />
         <Route path="perfil" element={<AlumnoPerfilPage />} />
-        {ALUMNO_MODULES.map((m) => (
-          <Route
-            key={m.path}
-            path={m.path}
-            element={<FeaturePlaceholder title={m.title} description={m.desc} specNumber={m.spec} />}
-          />
-        ))}
       </Route>
 
       {/* Redirección por defecto */}

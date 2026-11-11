@@ -17,6 +17,7 @@ import {
   saveRutinaCompletaSupabase,
   deleteRutinaSupabase,
 } from './supabaseAdapterMutations'
+import { fetchHistorialRelacional } from './supabaseHistorialQueries'
 
 async function fetchAlumnosRelacional(supabase, filterPersonaId = null) {
   let query = supabase
@@ -275,6 +276,10 @@ export const supabaseAdapter = {
 
   async getRutinasByAlumno(idAlumno) {
     return fetchRutinasRelacional(getSupabaseClient(), idAlumno)
+  },
+
+  async getHistorialByAlumno(idAlumno) {
+    return fetchHistorialRelacional(getSupabaseClient(), idAlumno)
   },
 
   async guardarRutinaCompleta(payload) {

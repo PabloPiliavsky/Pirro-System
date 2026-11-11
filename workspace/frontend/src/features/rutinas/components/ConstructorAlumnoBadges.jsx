@@ -5,28 +5,28 @@ export function ConstructorAlumnoBadges({ alumno, onAbrirFicha }) {
   if (!alumno) return null
 
   return (
-    <HStack className="flex-wrap items-center gap-3">
-      <div className="flex items-center gap-2 bg-secondary/50 border border-border px-3 py-1.5 rounded-xl text-xs font-semibold text-foreground">
-        <span className="text-muted-foreground">Sede:</span>
+    <HStack wrap className="gap-2.5 items-center shrink-0">
+      <div className="flex items-center gap-1.5 bg-slate-800/80 border border-slate-700/60 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200">
+        <span className="text-slate-400">Sede:</span>
         <span className="text-primary font-bold">
           {alumno.gimnasio?.nombre || 'Sin Sede Asignada'}
         </span>
       </div>
 
-      <div className="bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-xl text-xs font-bold text-primary">
-        {alumno.cantidad_dias_rutina} Días / Sem
+      <div className="bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-lg text-xs font-bold text-primary">
+        ⚡ {alumno.cantidad_dias_rutina} Días / Sem
       </div>
 
       {alumno.salud_enfermedades && (
-        <span className="bg-amber-500/10 border border-amber-500/30 text-amber-400 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
-          <span>⚠️</span> Condición médica
+        <span className="bg-amber-500/10 border border-amber-500/20 text-amber-400 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+          <span>⚠️</span> Ficha médica
         </span>
       )}
 
       <button
         type="button"
         onClick={() => onAbrirFicha(alumno)}
-        className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-foreground text-xs font-bold rounded-xl transition-all cursor-pointer active:scale-95 border border-border shadow-sm flex items-center gap-2"
+        className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg transition-all cursor-pointer active:scale-95 border border-slate-700 shadow-sm flex items-center gap-1.5"
       >
         <span>📋</span> Ver Ficha Médica
       </button>

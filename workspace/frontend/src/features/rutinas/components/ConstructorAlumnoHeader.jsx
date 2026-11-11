@@ -1,6 +1,6 @@
 // Anchored to REQ-RUT-008, REQ-RUT-010
-import { VStack } from '@/components/ui/VStack'
 import { ConstructorAlumnoBadges } from './ConstructorAlumnoBadges'
+import { ConstructorAlumnoSelect } from './ConstructorAlumnoSelect'
 
 export function ConstructorAlumnoHeader({
   alumnos = [],
@@ -8,37 +8,22 @@ export function ConstructorAlumnoHeader({
   onSeleccionarAlumno,
   onAbrirFicha,
 }) {
-  const handleChange = (e) => {
-    const val = e.target.value
-    if (!val) {
-      onSeleccionarAlumno(null)
-      return
-    }
-    const target = alumnos.find((a) => String(a.id_persona) === String(val))
-    onSeleccionarAlumno(target || null)
-  }
-
   return (
-    <div className="bg-card/70 border border-border/80 rounded-2xl p-5 shadow-lg backdrop-blur-md">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <VStack className="space-y-1.5 flex-1 max-w-md">
-          <label htmlFor="select-alumno" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div className="w-full max-w-md min-w-0 flex-1">
+          <label
+            htmlFor="select-alumno"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"
+          >
             Alumno a Planificar
           </label>
-          <select
-            id="select-alumno"
-            value={alumnoSeleccionado ? alumnoSeleccionado.id_persona : ''}
-            onChange={handleChange}
-            className="w-full bg-background border border-border rounded-xl px-4 py-2.5 text-foreground font-semibold cursor-pointer focus:ring-2 focus:ring-primary focus:outline-none transition-all"
-          >
-            <option value="">-- Seleccionar Alumno --</option>
-            {alumnos.map((a) => (
-              <option key={a.id_persona} value={a.id_persona}>
-                {a.nombre_completo}
-              </option>
-            ))}
-          </select>
-        </VStack>
+          <ConstructorAlumnoSelect
+            alumnos={alumnos}
+            alumnoSeleccionado={alumnoSeleccionado}
+            onSeleccionarAlumno={onSeleccionarAlumno}
+          />
+        </div>
 
         <ConstructorAlumnoBadges
           alumno={alumnoSeleccionado}

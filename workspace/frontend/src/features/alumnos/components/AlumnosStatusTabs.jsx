@@ -9,21 +9,26 @@ const STATUS_TABS = [
 
 export function AlumnosStatusTabs({ statusFilter, onStatusChange }) {
   return (
-    <HStack align="center" className="bg-secondary/60 p-1 rounded-lg border border-border/40">
-      {STATUS_TABS.map((tab) => (
-        <button
-          key={tab.id}
-          type="button"
-          onClick={() => onStatusChange(tab.id)}
-          className={`px-3 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer active:scale-95 ${
-            statusFilter === tab.id
-              ? 'bg-primary text-primary-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground hover:bg-secondary/80'
-          }`}
-        >
-          {tab.label}
-        </button>
-      ))}
-    </HStack>
+    <div>
+      <span className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+        Estado
+      </span>
+      <HStack align="center" className="bg-slate-950 p-1 rounded-xl border border-slate-800 h-[41px]">
+        {STATUS_TABS.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            onClick={() => onStatusChange(tab.id)}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer active:scale-95 ${
+              statusFilter === tab.id
+                ? 'bg-primary text-white shadow-sm'
+                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </HStack>
+    </div>
   )
 }

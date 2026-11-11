@@ -11,18 +11,18 @@ export function AlumnoCardMetrics({ alumno }) {
   const imcColor = imcInfo?.color || 'text-muted-foreground'
 
   return (
-    <div className={`grid ${gridLayout} gap-2 py-2.5 px-3 bg-secondary/50 rounded-lg border border-border/40 text-center mb-4`}>
+    <div className={`grid ${gridLayout} gap-2 py-2.5 px-3 bg-slate-800/60 rounded-xl border border-slate-700/50 text-center mb-4`}>
       <div>
-        <span className="text-[10px] uppercase tracking-wider text-muted-foreground block">Altura</span>
-        <span className="text-sm font-semibold text-foreground">{alturaDisplay}</span>
+        <span className="text-[10px] uppercase tracking-wider text-slate-400 block">Altura</span>
+        <span className="text-sm font-semibold text-white">{alturaDisplay}</span>
       </div>
       <div>
-        <span className="text-[10px] uppercase tracking-wider text-muted-foreground block">Peso</span>
-        <span className="text-sm font-semibold text-foreground">{pesoDisplay}</span>
+        <span className="text-[10px] uppercase tracking-wider text-slate-400 block">Peso</span>
+        <span className="text-sm font-semibold text-white">{pesoDisplay}</span>
       </div>
       {tieneImc && (
         <div>
-          <span className="text-[10px] uppercase tracking-wider text-muted-foreground block">IMC</span>
+          <span className="text-[10px] uppercase tracking-wider text-slate-400 block">IMC</span>
           <span className={`text-sm font-semibold ${imcColor}`}>{imcDisplay}</span>
         </div>
       )}

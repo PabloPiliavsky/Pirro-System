@@ -15,7 +15,7 @@ export function AlumnoCard({
   return (
     <VStack
       justify="between"
-      className="bg-card border border-border/60 rounded-xl p-5 hover:border-primary/40 hover:shadow-md transition-all duration-200"
+      className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/50 hover:bg-slate-900/90 hover:shadow-xl transition-all duration-200"
     >
       <div
         onClick={() => onVerFicha(alumno)}
@@ -28,8 +28,8 @@ export function AlumnoCard({
         role="button"
         tabIndex={0}
         aria-label={`Ver ficha médica de ${alumno.nombre_completo}`}
-        className="cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-primary rounded-lg transition"
-        title="Hacé clic en esta tarjeta para abrir su ficha física y médica"
+        className="cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-primary p-2 -m-2 rounded-xl transition-all duration-200 hover:bg-slate-800/40"
+        title="Hacé clic para seleccionar y ver la ficha física y médica del alumno"
       >
         <AlumnoCardHeader alumno={alumno} />
         <AlumnoCardBadges alumno={alumno} />
