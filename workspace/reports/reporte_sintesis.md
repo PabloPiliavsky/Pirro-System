@@ -1,56 +1,51 @@
-# Reporte de Síntesis y Validación: 003 — Gimnasios, Equipamiento y Catálogo de Ejercicios
-**Fecha**: 2026-10-19
-**Branch**: `feature/003-gimnasios-y-ejercicios`
+# Reporte de Síntesis y Validación: 007 — Historial de Cargas del Alumno, Seguimiento y Exportación a Excel `.xlsx`
+**Fecha**: 2026-11-25
+**Branch**: `feature/007-progreso-y-exportacion-excel`
 **Agente**: El Sintetizador y Validador (QA Auditor)
-**Comando Ejecutado**: `/sdd-validate specs/003-gimnasios-y-ejercicios`
+**Comando Ejecutado**: `/sdd-validate specs/007-progreso-y-exportacion-excel`
 
 ---
 
 ## 1. Estado de Compilación
 - **Comando**: `npm run build`
-- **Resultado**: Exitoso (código 0). 2022 módulos transformados sin errores de bundle.
+- **Resultado**: Exitoso (código 0). 2177 módulos transformados sin errores de compilación.
 
 ---
 
 ## 2. Batería de Pruebas Automatizadas
 
 ### A. Modo Mock & Tests Unitarios / UI
-- **Comando**: `npm test`
-- **Resultado**: 42 tests superados (13 suites activas).
-- Cobertura completa de:
-  - `GimnasiosPage.test.jsx`: renderizado, filtros por estado, apertura modal.
-  - `EjerciciosPage.test.jsx`: catálogo, filtros multi-músculo, búsqueda y modal.
-  - `gimnasiosService.test.js` & `ejerciciosService.test.js`: validaciones, inserción, actualización y baja lógica.
-  - `contractParity.test.js`: paridad de contratos entre mock y supabase adapters.
+- **Comando**: `npm run test`
+- **Resultado**: 22 suites aprobadas (76 tests pasados, 0 fallos).
+- Cobertura nueva de la Feature 007:
+  - `progresoExcel.test.js`: 5 tests unitarios y de contrato cubriendo `fetchReporteProgresoAlumno`, filtro de alumnos activos/inactivos, filtrado por fecha/rutina/ejercicio, cálculo de KPIs, construcción de las 3 hojas Excel (`Ficha del Alumno`, `Rutinas Semanales`, `Historial de Entrenamientos`), selección de columnas por hoja y prohibición de exposición de IDs internos (`id_persona`, `id_usuario`, `id_rutina`, `client_submission_id`).
+  - `ProgresoExcelPage.test.jsx`: 3 tests integrales de UI verificando el conmutador entre los dos componentes separados (`ProgresoSesionesView` y `ProgresoTablaSeriesView`), el switch *"¿Incluir alumnos dados de baja (inactivos)?"*, los filtros reactivos y el modal de selección de columnas para exportar `.xlsx`.
 
 ### B. Modo Supabase / Docker en Vivo
 - **Comando**: `npm run test:supabase`
-- **Resultado**: 8 tests superados (100% éxito contra PostgreSQL local).
-  - `gimnasiosEjercicios.supabase.test.js`: inserción de sedes con equipamiento relacional, alta de nuevo equipamiento y catálogo de ejercicios con RLS para rol `'profesor'`.
+- **Resultado**: 7 suites aprobadas (20 tests pasados al 100% contra PostgreSQL local en Docker).
+  - `progresoExcel.supabase.test.js`: Verifica la consulta relacional en vivo como rol `'profesor'` (`getAlumnoById`, `getRutinasByAlumno`, `getHistorialByAlumno`) y la generación del libro `.xlsx` de 3 hojas a partir de los datos reales de Supabase.
 
 ---
 
-## 3. Matriz de Cumplimiento de Requerimientos (spec.md)
+## 3. Matriz de Cumplimiento de Requerimientos (`spec.md`)
 
 | REQ-ID | Requerimiento | Estado | Evidencia |
 | :--- | :--- | :--- | :--- |
-| `REQ-GYM-001` | Consulta de gimnasios y desglose de equipamiento | CUMPLIDO | `gimnasiosService.getGimnasios()`, UI en cards |
-| `REQ-GYM-002` | Creación/edición atómica con sincronización de equipos | CUMPLIDO | `guardarGimnasio` en adapters + `GimnasioFormModal` |
-| `REQ-GYM-003` | Validación de nombre obligatorio y formato | CUMPLIDO | `gimnasiosValidator.js` + asterisco visual rojo |
-| `REQ-GYM-004` | Baja lógica de gimnasio (`estado = false`) y reactivación | CUMPLIDO | Botones Dar de baja / Dar de alta |
-| `REQ-GYM-005` | Catálogo maestro de equipamiento + alta rápida inline | CUMPLIDO | `saveEquipamiento` + UI inline en modal |
-| `REQ-GYM-006` | Vista `/profesor/gimnasios` con pestañas y horarios HH:MM | CUMPLIDO | Tabs de filtro (Todas/Activas/Inactivas) |
-| `REQ-EJE-001` | Consulta y filtro multi-músculo de ejercicios | CUMPLIDO | Multi-selección toggleable y búsqueda texto |
-| `REQ-EJE-002` | Alta y edición de ejercicios con multi-grupo muscular | CUMPLIDO | Checkboxes canónicos + persistencia comas |
-| `REQ-EJE-003` | Condicional obligatorio de equipamiento requerido | CUMPLIDO | Switch condicional con selector validado |
-| `REQ-EJE-004` | Validación de campos obligatorios en ejercicio | CUMPLIDO | `ejerciciosValidator.js` + asterisco visual rojo |
-| `REQ-EJE-005` | Baja lógica de ejercicio (`estado = false`) | CUMPLIDO | Preserva datos históricos de rutinas |
-| `REQ-EJE-006` | Vista `/profesor/ejercicios` con badges corporativos y links | CUMPLIDO | Paleta corporativa `#00ADB5` / `#00C2CB` |
-| `REQ-GYM-007` | Paridad estricta entre `mockAdapter` y `supabaseAdapter` | CUMPLIDO | Verificado en `contractParity.test.js` |
-| `REQ-GYM-008` | Clean Code, SRP y trazabilidad REQ | CUMPLIDO | Anclajes en todos los archivos del feature |
-| `REQ-GYM-009` | Cobertura dual de pruebas automatizadas | CUMPLIDO | 100% pasando en `npm test` y `npm run test:supabase` |
+| `REQ-PRG-001` | Consulta unificada de ficha, rutinas e historial con paridad dual | CUMPLIDO | `progresoService.js` + `contractParity.test.js` |
+| `REQ-PRG-002` | Filtro de alumnos activos por defecto + pregunta para incluir inactivos | CUMPLIDO | `ProgresoAlumnoSelector.jsx` + `filterAlumnosByEstado` |
+| `REQ-PRG-003` | Carga reactiva del alumno seleccionado y reinicio de filtros | CUMPLIDO | `useProgresoExcel.js` |
+| `REQ-PRG-004` | Filtrado en tiempo real por fecha desde/hasta, rutina y ejercicio | CUMPLIDO | `ProgresoFiltersBar.jsx` + `filterHistorialSesiones` |
+| `REQ-PRG-005` | Tarjetas KPI (Sesiones, Series, Récord PR en kg, Última Fecha) | CUMPLIDO | `ProgresoKpiCards.jsx` + `calcularKpisProgreso` |
+| `REQ-PRG-006` | Dos vistas de historial en archivos independientes conmutables | CUMPLIDO | `ProgresoSesionesView.jsx` y `ProgresoTablaSeriesView.jsx` |
+| `REQ-PRG-007` | Estado vacío cuando no hay entrenamientos coincidentes | CUMPLIDO | `ProgresoExcelPage.jsx` |
+| `REQ-PRG-008` | Libro `.xlsx` estructurado en 3 hojas (`Ficha`, `Rutinas`, `Historial`) | CUMPLIDO | `excelBuilder.js` |
+| `REQ-PRG-009` | Modal selector de columnas a exportar en cada una de las 3 hojas | CUMPLIDO | `ExcelExportModal.jsx` + `excelColumnsConfig.js` |
+| `REQ-PRG-010` | Prohibición de exponer IDs internos o JSON crudo en el Excel | CUMPLIDO | Verificado en `progresoExcel.test.js` y `progresoExcel.supabase.test.js` |
+| `REQ-PRG-011` | Nombre estándar de archivo `Pirro_Alumno_<Nombre>_<Apellido>_<Fecha>.xlsx` | CUMPLIDO | `buildExcelFileName` en `excelBuilder.js` |
+| `REQ-PRG-012` | Clean Code (~40 líneas/función), `VStack`/`HStack` y sin `;` | CUMPLIDO | Todos los módulos de `src/features/progreso-excel/` |
 
 ---
 
 ## 4. Certificación
-La feature `specs/003-gimnasios-y-ejercicios` cumple con la totalidad de los criterios funcionales, de contrato y de integración. Procedemos al análisis de calidad de código (`/review`).
+La feature `specs/007-progreso-y-exportacion-excel` cumple al 100% con la Constitución, las reglas de `AGENT.md` y la skill `gym-excel-export-reporting`.

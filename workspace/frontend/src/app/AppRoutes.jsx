@@ -12,15 +12,11 @@ import { EjerciciosPage } from '@/features/ejercicios/components/EjerciciosPage'
 import { AlumnosPage } from '@/features/alumnos/components/AlumnosPage'
 import { AlumnoPerfilPage } from '@/features/alumnos/components/AlumnoPerfilPage'
 import { ConstructorRutinasPage } from '@/features/rutinas/components/ConstructorRutinasPage'
+import { ProgresoExcelPage } from '@/features/progreso-excel/components/ProgresoExcelPage'
 import { PlanillaEntrenamientoPage } from '@/features/training/components/PlanillaEntrenamientoPage'
 import { HistorialEntrenamientosPage } from '@/features/training/components/HistorialEntrenamientosPage'
-import { FeaturePlaceholder } from './layouts/FeaturePlaceholder'
 import { FoundationDashboard } from '@/features/foundation/components/FoundationDashboard'
 import { VStack } from '@/components/ui/VStack'
-
-const PROFESOR_PLACEHOLDER_MODULES = [
-  { path: 'progreso', title: 'Progreso y Reportes Excel', desc: 'Evolución de cargas y exportación .xlsx', spec: 'specs/007-progreso-y-exportacion-excel' },
-]
 
 export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
   const { role, isAuthenticated, isLoading } = useAuth()
@@ -57,13 +53,7 @@ export function AppRoutes({ theme, onToggleTheme, refreshToken }) {
         <Route path="gimnasios" element={<GimnasiosPage />} />
         <Route path="ejercicios" element={<EjerciciosPage />} />
         <Route path="rutinas" element={<ConstructorRutinasPage />} />
-        {PROFESOR_PLACEHOLDER_MODULES.map((m) => (
-          <Route
-            key={m.path}
-            path={m.path}
-            element={<FeaturePlaceholder title={m.title} description={m.desc} specNumber={m.spec} />}
-          />
-        ))}
+        <Route path="progreso" element={<ProgresoExcelPage />} />
         <Route
           path="laboratorio"
           element={

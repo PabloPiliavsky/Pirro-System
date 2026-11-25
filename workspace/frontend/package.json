@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:supabase": "cross-env RUN_SUPABASE_TESTS=true vitest run supabase"
+    "test:supabase": "cross-env RUN_SUPABASE_TESTS=true vitest run supabase --no-file-parallelism --test-timeout=15000"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
@@ -19,7 +19,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.18.4",
-    "tailwind-merge": "^3.0.2"
+    "tailwind-merge": "^3.0.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.9",
